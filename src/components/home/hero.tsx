@@ -1,4 +1,4 @@
-import Image from "next/image";
+
 import Link from "next/link";
 
 export default function Hero() {
@@ -56,7 +56,7 @@ export default function Hero() {
               >
                 {" "}
                 Seamless rental booking platform designed for simplicity and
-                efficiency. Whether you're listing properties or booking your
+                efficiency. Whether {"you're"} listing properties or booking your
                 next stay, our system ensures a smooth experience with secure
                 authentication, easy property browsing, and instant bookings.
                 Join us in redefining the way rentals work <br /> effortless,

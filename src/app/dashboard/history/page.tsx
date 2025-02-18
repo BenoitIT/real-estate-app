@@ -1,8 +1,8 @@
 "use client";
 import useSWR from "swr";
-import { useEffect, useState, Suspense } from "react";
+import { Suspense } from "react";
 import { headers } from "@/components/table-headers/request";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter} from "next/navigation";
 import Loader from "@/components/loader";
 import ErrorSection from "@/components/error-section";
 import Requests from "@/components/pages/requests";

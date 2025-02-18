@@ -36,7 +36,7 @@ export default function Solutions() {
             <h1 className="mb-4 text-3xl font-bold">Explore the solutions</h1>
             <p className="text-lg text-gray-600">
               Instant Bookings, Verified Listings, Flexible Search & Filters,
-              and 24/7 Support. Whether you're booking your next stay or listing
+              and 24/7 Support. Whether {"you're"} booking your next stay or listing
               your property to find renters faster, our platform makes the
               process effortless and efficient.
             </p>
@@ -52,7 +52,7 @@ export default function Solutions() {
                   Discover Innovative Solutions for Seamless Rentals: Instant
                   Bookings, Verified Listings, Secure Payments, Flexible Search
                   & Filters, and 24/7 Support. Each designed to simplify your
-                  rental experience. Whether you're booking your next stay or
+                  rental experience. Whether {"you're"} booking your next stay or
                   listing your property to find renters faster, our platform
                   makes the process effortless and efficient.
                 </p>
@@ -78,7 +78,7 @@ export default function Solutions() {
                       Looking for the perfect space to grow your business? Book
                       a commercial building with us and enjoy prime locations,
                       modern amenities, and tailored solutions for your needs.
-                      Don't miss the opportunity to elevate your brand
+                      {"Don't"} miss the opportunity to elevate your brand
                     </div>
                     <div className="w-full flex justify-end text-sm font-bold text-emerald-900 hover:text-emerald-700 mt-2">
                       <Link href={""}>Explore now</Link>
@@ -106,13 +106,13 @@ export default function Solutions() {
                     </div>
                     <div className="text-gray-600 text-sm">
                       Discover the perfect blend of comfort, style, and
-                      convenience in our residential properties. Whether you're
+                      convenience in our residential properties. Whether {"you're"}
                       looking for a cozy single-family home, a spacious
                       apartment, or a modern townhouse, we have options to suit
                       every lifestyle. With prime locations, quality
                       construction, and amenities designed for modern living,
                       our residential buildings are more than just houses.
-                      they're homes! Start your journey to a better living
+                      {"they're"} homes! Start your journey to a better living
                       experience today
                     </div>
                     <div className="w-full flex justify-end text-sm font-bold text-emerald-900 hover:text-emerald-700 mt-2">

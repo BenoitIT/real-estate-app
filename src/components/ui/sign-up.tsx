@@ -68,6 +68,7 @@ export const SignUp = ({
           toast.error(response?.message || "Failed to create account");
         }
       } catch (error) {
+        console.error(error)
         toast.error("An error occurred. Please try again.");
       } finally {
         setLoading(false);

@@ -20,6 +20,7 @@ export const DELETE = async (req: Request) => {
       message: "Property is not found",
     });
   } catch (err) {
+    console.error(err)
     return NextResponse.json({
       status: 400,
       message: "something went wrong",
@@ -48,6 +49,7 @@ export const GET = async (req: Request) => {
       message: null,
     });
   } catch (err) {
+    console.error(err)
     return NextResponse.json({
       status: 400,
       message: "something went wrong",

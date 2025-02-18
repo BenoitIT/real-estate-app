@@ -5,7 +5,6 @@ import {
   ArrowRightLeft,
   BetweenHorizontalEnd,
   LayoutTemplate,
-  BadgeDollarSign,
   Fence,
   Settings,
   Bell,

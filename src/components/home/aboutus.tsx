@@ -11,7 +11,7 @@ export default function AboutUs() {
             >
               At Rental booking platform, we are revolutionizing the rental experience with a
               seamless and efficient platform designed for renters and hosts
-              alike. Whether you're booking your next getaway or listing your
+              alike. Whether {"you're"} booking your next getaway or listing your
               property for eager travelers, Rental booking platform combines simplicity and
               innovation to meet your needs. Our mission is to connect people
               with places effortlessly while ensuring a delightful and secure

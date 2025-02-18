@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const year = new Date().getFullYear();
+
 
 export const Footer = () => {
   const menus = [
@@ -41,7 +41,7 @@ export const Footer = () => {
               we provide a seamless rental booking experience for both renters
               and property owners. Our services include secure user
               authentication, effortless property listings and instant bookings
-              Whether you're looking to book your next stay or list a
+              Whether {"you're"} looking to book your next stay or list a
               residential building, our platform makes the process smooth and
               efficient.
             </p>

@@ -128,6 +128,7 @@ const Page = ({ className, ...props }: React.ComponentProps<"div">) => {
           toast.error(response?.message || "Failed to create budget");
         }
       } catch (error) {
+        console.error(error)
         toast.error("An error occurred. Please try again.");
       } finally {
         setLoading(false);

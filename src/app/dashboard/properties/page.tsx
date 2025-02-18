@@ -1,5 +1,5 @@
 "use client";
-import { FaEdit, FaTrash } from "react-icons/fa";
+
 import { useState, Suspense } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Loader from "@/components/loader";

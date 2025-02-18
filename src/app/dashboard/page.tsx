@@ -2,7 +2,7 @@
 import React, { Suspense, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from "recharts";
-import { DollarSign, CreditCard, Activity } from "lucide-react";
+import {  CreditCard, Activity } from "lucide-react";
 import { DatePickerWithRange } from "@/components/ui/datepicker";
 import { DateRange } from "react-day-picker";
 import useSWR from "swr";
