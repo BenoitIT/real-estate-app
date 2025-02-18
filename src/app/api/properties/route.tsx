@@ -25,7 +25,17 @@ export const POST = async (req: NextRequest) => {
         status: 400,
         message: "Another property with this name already exist.",
       });
-    const property = await prisma.properties.create({ data: body });
+    const property = await prisma.properties.create({ data:{
+      name: body.name,
+      ptype: body.ptype,
+      location : body.location,
+      measurement: body.measurement,
+      unitcount: body.unitcount,
+      pricepermonth: body.pricepermonth,
+      anemities: body.anemities || [], 
+      description: body.description,
+      userId: body.userId
+    } });
     return NextResponse.json({
       status: 201,
       message: `${body.name} is registered successfully`,
@@ -47,6 +57,9 @@ export const GET = async (req: Request) => {
     where: {
       userId: userId,
     },
+    include:{
+      Booking:true
+    }
   });
   return NextResponse.json({
     status: 200,

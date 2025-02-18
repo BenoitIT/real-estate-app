@@ -59,8 +59,8 @@ export default function Hero() {
                 efficiency. Whether you're listing properties or booking your
                 next stay, our system ensures a smooth experience with secure
                 authentication, easy property browsing, and instant bookings.
-                Join us in redefining the way rentals work <br/> effortless, reliable,
-                and built for you.
+                Join us in redefining the way rentals work <br /> effortless,
+                reliable, and built for you.
               </p>
               <div
                 className="max-w-xs mx-auto sm:max-w-none flex justify-center gap-2 mt-6"
@@ -77,10 +77,10 @@ export default function Hero() {
                 </div>
                 <div>
                   <Link
-                    href="/#service"
+                    href="/properties"
                     className="btn text-white bg-gray-900 hover:bg-gray-800 w-full sm:w-auto sm:ml-4 rounded px-6 py-3 shadow"
                   >
-                    Services
+                    View properties
                   </Link>
                 </div>
               </div>

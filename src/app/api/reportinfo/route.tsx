@@ -1,148 +1,141 @@
 import prisma from "../../../../prisma/client";
 import { NextResponse } from "next/server";
+
 export const revalidate = 0;
+
 export const GET = async (req: Request) => {
   const { searchParams } = new URL(req.url);
+  const startDate = searchParams.get("startDate");
+  const endDate = searchParams.get("endDate");
+  const userId = searchParams.get("user");
   const date = new Date();
   const currentMonth = date.getMonth() + 1;
   const currentYear = date.getFullYear();
-  const startDate = searchParams.get("startDate");
-  const endDate = searchParams.get("endDate");
-  const userId = Number(searchParams?.get("user"));
+
   const start = startDate
     ? new Date(startDate)
-    : new Date(
-        `${currentYear}-${currentMonth
-          .toString()
-          .padStart(2, "0")}-01T00:00:00.000Z`
-      );
+    : new Date(`${currentYear}-${currentMonth.toString().padStart(2, "0")}-01`);
+    
   const end = endDate
     ? new Date(new Date(endDate).setDate(new Date(endDate).getDate() + 1))
-    : new Date(
-        `${currentYear}-${(currentMonth + 1)
-          .toString()
-          .padStart(2, "0")}-01T00:00:00.000Z`
-      );
-  const totalIncomeMadeInTimeRange = await prisma.transaction.aggregate({
+    : new Date(`${currentYear}-${(currentMonth + 1).toString().padStart(2, "0")}-01`);
+  const totalProperties = await prisma.properties.count({
     where: {
-      category: {
-        type: "income",
-      },
-      userId: Number(userId),
+      userId:userId!,
+    },
+  });
+  const pendingBookings = await prisma.booking.count({
+    where: {
+      userId:userId!,
+      progress: "pending",
       createdAt: {
         gte: start,
         lt: end,
       },
     },
-    _sum: {
-      amount: true,
-    },
   });
-  const totalRevenueMadeInTimeRange = await prisma.transaction.aggregate({
+  const propertiesInUse = await prisma.booking.count({
     where: {
-      category: {
-        type: "expense",
-      },
-      userId: Number(userId),
+      userId:userId!,
+      progress: "active",
       createdAt: {
         gte: start,
         lt: end,
       },
     },
-    _sum: {
-      amount: true,
-    },
   });
-  const currentYearBuget = await prisma.budget.findFirst({
+  const uniqueClients = await prisma.booking.count({
     where: {
-      year: currentYear,
-      userId: Number(userId),
-    },
-  });
-  const countOfExepenseMadeInTimeRange = await prisma.transaction.aggregate({
-    where: {
-      category: {
-        type: "expense",
-      },
-      userId: Number(userId),
+      userId:userId!,
       createdAt: {
         gte: start,
         lt: end,
       },
     },
-    _count: {
-      id: true,
-    },
   });
+  const months = Array.from({ length: 12 }, (_, i) => i);
+  const monthlyStats = await Promise.all(
+    months.map(async (month) => {
+      const monthStart = new Date(currentYear, month, 1);
+      const monthEnd = new Date(currentYear, month + 1, 0);
 
-  const recentExapnses = await prisma.transaction.findMany({
+      const [pending, active, completed] = await Promise.all([
+        prisma.booking.count({
+          where: {
+           userId:userId!,
+            progress: "pending",
+            createdAt: {
+              gte: monthStart,
+              lte: monthEnd,
+            },
+          },
+        }),
+        prisma.booking.count({
+          where: {
+           userId:userId!,
+            progress: "active",
+            createdAt: {
+              gte: monthStart,
+              lte: monthEnd,
+            },
+          },
+        }),
+        prisma.booking.count({
+          where: {
+           userId:userId!,
+            progress: "completed",
+            createdAt: {
+              gte: monthStart,
+              lte: monthEnd,
+            },
+          },
+        }),
+      ]);
+
+      const monthNames = [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      ];
+
+      return {
+        month: monthNames[month],
+        pending,
+        active,
+        completed,
+      };
+    })
+  );
+  const recentBookings = await prisma.booking.findMany({
     where: {
-      category: {
-        type: "expense",
-      },
-      userId: Number(userId),
+      userId:userId!,
     },
     include: {
-      category: true,
+      property: true,
     },
-
     orderBy: {
-      id: "desc",
+      createdAt: 'desc',
     },
     take: 5,
   });
-  const simpleExapnsesRecord = recentExapnses.map((expense) => ({
-    ExpName: expense.category?.name,
-    ExpType: expense.category?.type,
-    amount: expense.amount,
-    date:expense.createdAt.toDateString()
+
+  const formattedRecentBookings = recentBookings.map(booking => ({
+    propertyName: booking.property.name,
+    clientName: booking.fullname,
+    startDate: booking.sdate,
+    endDate: booking.edate,
+    status: booking.progress,
+    amount: booking.property.pricepermonth,
   }));
-  const IncomeByMonth = await prisma.transaction.findMany({
-    where: {
-      category: {
-        type: "income",
-      },
-      userId: Number(userId),
-    },
-    select: {
-      createdAt: true,
-      amount: true,
-    },
-  });
-  const monthlyIncome = IncomeByMonth.reduce((acc, inc) => {
-    const month = new Date(inc.createdAt).getMonth()!;
-    acc[month] = (acc[month] || 0) + (inc.amount || 0);
-    return acc;
-  }, {} as { [key: number]: number });
-  const chartData = Array.from({ length: 12 }, (_, monthIndex) => {
-    const monthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-    return {
-      month: monthNames[monthIndex],
-      income: monthlyIncome[monthIndex] || 0,
-    };
-  });
+
   return NextResponse.json({
     status: 200,
     data: {
-      totalIncomeMade: totalIncomeMadeInTimeRange._sum.amount,
-      totalExpenseMade: totalRevenueMadeInTimeRange._sum.amount,
-      currentYearBuget: currentYearBuget?.remainingAmount,
-      expenseCount: countOfExepenseMadeInTimeRange._count.id,
-      simpleExapnsesRecord: simpleExapnsesRecord,
-      chatRecords: chartData,
+      totalProperties,
+      pendingBookings,
+      propertiesInUse,
+      uniqueClients,
+      monthlyStats,
+      recentBookings: formattedRecentBookings,
     },
   });
 };

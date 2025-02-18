@@ -1,7 +1,6 @@
 "use client";
 import useSWR from "swr";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import { useEffect, useState, Suspense } from "react";
+import {  useState, Suspense } from "react";
 import { headers } from "@/components/table-headers/request";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Loader from "@/components/loader";
@@ -18,53 +17,54 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import Requests from "@/components/pages/requests";
-import { deleteCashAccount, getCashaccount } from "@/app/services/account";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
+import { getRequests, UpdateAccount } from "@/app/services/requests";
 
 const Page = () => {
-  const router = useRouter();
-  const currentpath: string = usePathname()!;
-  const searchParams: any = useSearchParams();
   const session: any = useSession();
-  const activePage = searchParams?.get("page");
-  const [currentPage, setCurrentPage] = useState(1);
+  const router=useRouter();
+  const currentpath=usePathname();
   const [rowId, setRowId] = useState<any>();
   const [action, setRespondAction] = useState(false);
   const userId = session?.data?.id;
   const { data, isLoading, error } = useSWR(
-    userId && ["cashaccount", userId, action],
-    () => getCashaccount(userId)
+    userId && ["requests", userId, action],
+    () => getRequests(userId)
   );
-  const handleEdit = async (id: number | string) => {
+  const handleView = async (id: number | string) => {
     router.push(`${currentpath}/${id}`);
   };
-  const handleDelete = async (id: number) => {
+  const handleGetId = async (id: number) => {
     setRowId(id);
   };
-  const handleConfirmDelete = async (id: number) => {
+  const handleConfirmReservation = async (id: string) => {
     try {
-      const message = await deleteCashAccount(id);
-      toast.success(message);
+      const response = await UpdateAccount(id);
+      toast.success(response?.message);
       setRespondAction(!action);
     } catch (err) {
       console.error(err);
-      toast.error("Failed to delete this account");
+      toast.error("Failed to accept this reservetion");
     }
   };
-
-  useEffect(() => {
-    if (activePage) {
-      setCurrentPage(activePage);
-    }
-  }, [activePage]);
   const actions = [
-    { icon: <FaEdit />, Click: handleEdit },
+    {
+      icon: (
+        <span className="text-emerald-900 text-xs font-semibold hover:bg-green-100 hover:rounded hover:shadow">
+          View
+        </span>
+      ),
+      Click:handleView,
+      name:"view"
+    },
     {
       icon: (
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <FaTrash />
+            <span className="text-emerald-900 text-xs font-semibold hover:bg-green-100 hover:rounded hover:shadow">
+            Accept
+            </span>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -72,8 +72,8 @@ const Page = () => {
                 Are you absolutely sure?
               </AlertDialogTitle>
               <AlertDialogDescription className="text-sm text-black opacity-65">
-                This action cannot be undone. This will permanently delete the
-                account.
+                This action cannot be undone. This will accept this reservation
+                request.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
@@ -82,9 +82,9 @@ const Page = () => {
               </AlertDialogCancel>
               <AlertDialogAction
                 onClick={() => {
-                  handleConfirmDelete(rowId);
+                  handleConfirmReservation(rowId);
                 }}
-                className="bg-[#55865f]"
+                className="bg-emerald-900"
               >
                 Continue
               </AlertDialogAction>
@@ -92,8 +92,8 @@ const Page = () => {
           </AlertDialogContent>
         </AlertDialog>
       ),
-      Click: handleDelete,
-      name: "delete",
+      Click: handleGetId,
+      name: "confirm",
     },
   ];
 

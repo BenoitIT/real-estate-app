@@ -18,9 +18,7 @@ const BaseTable = <T extends Record<string, string | number>>({
     <Table className="bg-white shadow rounded w-full  overflow-x-auto">
       <TableHeader>
         <TableRow className="bg-gray-50 text-gray-900">
-          <TableHead
-            className={`font-semibold text-xs md:text-sm p-2`}
-          >
+          <TableHead className={`font-semibold text-xs md:text-sm p-2`}>
             #
           </TableHead>
           {headers.map((header, index) => (
@@ -47,26 +45,17 @@ const BaseTable = <T extends Record<string, string | number>>({
         {data?.length > 0 ? (
           data.map((row, rowIndex) => (
             <TableRow key={rowIndex} className="text-gray-700">
-              <TableCell
-                className={`text-xs md:text-sm  text-gray-700 p-3`}
-              >
+              <TableCell className={`text-xs md:text-sm  text-gray-700 p-3`}>
                 {rowIndex + 1}
               </TableCell>
               {headers.map((header, colIndex) => (
-                <TableCell
-                  key={colIndex}
-                  className={`text-xs  p-3 `}
-                >
-                  {row[header.field] as string | number}
+                <TableCell key={colIndex} className={`text-xs  p-3 `}>
+                  {header.field == "createdAt"
+                    ? new Date(row[header.field]).toDateString()
+                    : (row[header.field] as string | number)}
                 </TableCell>
               ))}
-              <TableCell
-                className={
-                  action
-                    ? `text-sm`
-                    : "hidden p-3"
-                }
-              >
+              <TableCell className={action ? `text-sm` : "hidden p-3"}>
                 <div className={`flex w-fit gap-2 ml-2`}>
                   {action
                     ? action.map((action, index) => (

@@ -1,8 +1,8 @@
-import { walletApi } from "./axios";
+import { bookingAppUrl } from "./axios";
 export const categoryBaseEndpoint = "/notification";
 export const getNotifications = async (user: number) => {
   try {
-    const response = await walletApi.get(
+    const response = await bookingAppUrl.get(
       `${categoryBaseEndpoint}?user=${user}`
     );
     return { data: response.data.data, status: response.data.status };
@@ -12,7 +12,7 @@ export const getNotifications = async (user: number) => {
 };
 export const getNotificationsNumber = async (user: number) => {
   try {
-    const response = await walletApi.get(
+    const response = await bookingAppUrl.get(
       `${categoryBaseEndpoint}/count?user=${user}`
     );
     return { data: response.data.data, status: response.data.status };
@@ -22,7 +22,7 @@ export const getNotificationsNumber = async (user: number) => {
 };
 export const markNotificationAsRead = async (user: number) => {
   try {
-    const response = await walletApi.put(
+    const response = await bookingAppUrl.put(
       `${categoryBaseEndpoint}?user=${user}`
     );
     return { message: response.data.message, status: response.data.status };

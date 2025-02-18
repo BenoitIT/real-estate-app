@@ -1,6 +1,6 @@
 "use client";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import {useState, Suspense } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Loader from "@/components/loader";
 import ErrorSection from "@/components/error-section";
@@ -19,8 +19,8 @@ import Properties from "@/components/pages/properties";
 import { propertiesHeaders } from "@/components/table-headers/properties";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
-import { deleteBudget, getBudgets } from "@/app/services/budget";
 import { toast } from "react-toastify";
+import { deleteProperty, getProperties } from "@/app/services/property";
 
 const Page = () => {
   const router = useRouter();
@@ -30,8 +30,8 @@ const Page = () => {
   const [action, setRespondAction] = useState(false);
   const userId = session?.data?.id;
   const { data, isLoading, error } = useSWR(
-    userId && ["budget", userId, action],
-    () => getBudgets(userId)
+    userId && ["properties", userId, action],
+    () => getProperties(userId)
   );
   const handleEdit = async (id: number | string) => {
     router.push(`${currentpath}/${id}`);
@@ -42,7 +42,7 @@ const Page = () => {
   };
   const handleConfirmDelete = async (id: number) => {
     try {
-      const message = await deleteBudget(id);
+      const message = await deleteProperty(id);
       toast.success(message);
       setRespondAction(!action);
     } catch (err) {
@@ -51,12 +51,19 @@ const Page = () => {
     }
   };
   const actions = [
-    { icon: <FaEdit />, Click: handleEdit },
+    {
+      icon: (
+        <span className="text-emerald-900 text-xs font-semibold hover:bg-green-100 hover:rounded hover:shadow">
+          View
+        </span>
+      ),
+      Click: handleEdit,
+    },
     {
       icon: (
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <FaTrash />
+            <span className="text-xs text-red-500 font-semibold">Delete</span>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -65,7 +72,7 @@ const Page = () => {
               </AlertDialogTitle>
               <AlertDialogDescription className="text-sm text-black opacity-65">
                 This action cannot be undone. This will permanently delete the
-                budget.
+                this property.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

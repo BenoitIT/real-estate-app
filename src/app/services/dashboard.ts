@@ -1,4 +1,4 @@
-import { walletApi } from "./axios";
+import { bookingAppUrl } from "./axios";
 export const reportBaseEndpoint = "/reportinfo";
 
 export const getStatistics = async (
@@ -7,7 +7,7 @@ export const getStatistics = async (
   enddate: string
 ) => {
   try {
-    const response = await walletApi.get(
+    const response = await bookingAppUrl.get(
       `${reportBaseEndpoint}?user=${user}&startDate=${startdate}&endDate=${enddate}`
     );
     return { data: response.data.data, status: response.data.status };

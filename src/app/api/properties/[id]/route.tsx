@@ -33,6 +33,9 @@ export const GET = async (req: Request) => {
       where: {
         id: propertyId,
       },
+      include:{
+        Booking:true
+      }
     });
     if (property) {
       return NextResponse.json({

@@ -4,6 +4,7 @@ export interface userInfo {
   email?: string;
   password?: string;
   oldpassword?:string;
+  role?:string
 }
 
 export interface userInfoError {
