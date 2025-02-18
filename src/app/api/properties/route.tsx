@@ -1,12 +1,11 @@
 import prisma from "../../../../prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import accountValidationSchema from "../validation/account";
+import propertyValidationSchema from "../validation/properties";
 export const revalidate = 0;
 export const POST = async (req: NextRequest) => {
   try {
     const body = await req.json();
-    console.log("body",body)
-    const inpuValidation = accountValidationSchema.safeParse(body);
+    const inpuValidation = propertyValidationSchema.safeParse(body);
     if (!inpuValidation.success)
       return NextResponse.json({
         message:
@@ -15,22 +14,22 @@ export const POST = async (req: NextRequest) => {
           inpuValidation.error.errors[0].message,
         status: 400,
       });
-    const checkNameExistance = await prisma.account.findFirst({
+    const checkNameExistance = await prisma.properties.findFirst({
       where: {
         userId: body.userId,
-        accountnumber: body.accountnumber,
+        name: body.name,
       },
     });
     if (checkNameExistance)
       return NextResponse.json({
         status: 400,
-        message: "Another account with this name already exist.",
+        message: "Another property with this name already exist.",
       });
-    const account = await prisma.account.create({ data: body });
+    const property = await prisma.properties.create({ data: body });
     return NextResponse.json({
       status: 201,
-      message: "A cash account is created successfully",
-      data: account,
+      message: `${body.name} is registered successfully`,
+      data: property,
     });
   } catch (err) {
     console.error(err);
@@ -43,21 +42,14 @@ export const POST = async (req: NextRequest) => {
 
 export const GET = async (req: Request) => {
   const searchParm: any = new URL(req.url);
-  const userId = Number(searchParm?.searchParams?.get("user"));
-  const records = await prisma.account.findMany({
+  const userId = searchParm?.searchParams?.get("user");
+  const properties = await prisma.properties.findMany({
     where: {
-      userId: Number(userId),
-    },
-    select: {
-      id: true,
-      name: true,
-      accountnumber: true,
-      type: true,
-      balance: true,
+      userId: userId,
     },
   });
   return NextResponse.json({
     status: 200,
-    data: records,
+    data: properties,
   });
 };

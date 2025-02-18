@@ -3,21 +3,21 @@ import { NextResponse } from "next/server";
 
 export const DELETE = async (req: Request) => {
   try {
-    const accountId = req.url.split("accounts/")[1];
-    const accountToDelete = await prisma.account.delete({
+    const propertyId = req.url.split("properties/")[1];
+    const propertyToDelete = await prisma.properties.delete({
       where: {
-        id: Number(accountId),
+        id: propertyId,
       },
     });
-    if (accountToDelete) {
+    if (propertyToDelete) {
       return NextResponse.json({
         status: 200,
-        message: "account is deleted successfully",
+        message: "Property is deleted successfully",
       });
     }
     return NextResponse.json({
       status: 404,
-      message: "account is not found",
+      message: "Property is not found",
     });
   } catch (err) {
     return NextResponse.json({
@@ -28,16 +28,16 @@ export const DELETE = async (req: Request) => {
 };
 export const GET = async (req: Request) => {
   try {
-    const accountId = req.url.split("accounts/")[1];
-    const account = await prisma.account.findFirst({
+    const propertyId = req.url.split("properties/")[1];
+    const property = await prisma.properties.findFirst({
       where: {
-        id: Number(accountId),
+        id: propertyId,
       },
     });
-    if (account) {
+    if (property) {
       return NextResponse.json({
         status: 200,
-        data: account,
+        data: property,
       });
     }
     return NextResponse.json({
@@ -53,24 +53,24 @@ export const GET = async (req: Request) => {
 };
 export const PUT = async (req: Request) => {
   try {
-    const accountId = req.url.split("accounts/")[1];
+    const propertyId = req.url.split("properties/")[1];
     const body = await req.json();
     delete body.id;
-    const account = await prisma.account.update({
+    const Updatedproperty = await prisma.properties.update({
       where: {
-        id: Number(accountId),
+        id: propertyId,
       },
       data: body,
     });
-    if (account) {
+    if (Updatedproperty) {
       return NextResponse.json({
         status: 200,
-        message: "Account's information are updated succesfully",
+        message: "Property's information are updated succesfully",
       });
     }
     return NextResponse.json({
       status: 404,
-      message: "Coud not find account",
+      message: "Coud not find the property",
     });
   } catch (err) {
     return NextResponse.json({

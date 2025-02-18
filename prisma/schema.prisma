@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id         Int          @id @default(autoincrement())
+  id         String       @id @default(uuid())
   name       String
   email      String       @unique
   password   String
@@ -21,38 +21,40 @@ model User {
 }
 
 model Properties {
-  id            Int      @id @default(autoincrement())
-  userId        Int
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  accountnumber String   @unique
+  id            String    @id @default(uuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   name          String
   ptype         String
   measurement   String
-  pricepermonth Decimal  @default(0)
+  pricepermonth Decimal   @default(0)
   description   String
   anemities     String[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  Booking       Booking[]
 }
 
 model Booking {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  sdate     DateTime
-  edate     DateTime
-  fullname  String
-  email     String
-  phone     String
-  progress  String
-  note      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String     @id @default(uuid())
+  userId     String
+  propertyId String
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property   Properties @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  sdate      DateTime
+  edate      DateTime
+  fullname   String
+  email      String
+  phone      String
+  progress   String
+  note       String
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 }
 
 model Notification {
-  id        Int      @id @default(autoincrement())
-  userId    Int
+  id        String   @id @default(uuid())
+  userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   title     String
   isRead    Boolean  @default(false)
