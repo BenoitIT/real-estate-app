@@ -12,7 +12,7 @@ import ErrorSection from "@/components/error-section";
 
 const PropertyDetailView = () => {
   const params: any = useParams();
-  const router=useRouter();
+  const router = useRouter();
   const propertyId = params?.id;
   const [loadinfo, setLoadInfo] = useState(false);
   const { data, isLoading, error } = useSWR(
@@ -59,7 +59,9 @@ const PropertyDetailView = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="w-full flex justify-between">
         <h1 className="text-2xl font-bold mb-6">{property.name}</h1>
-        <Button className="w-fit bg-emerald-900" onClick={()=>router.back()}>home</Button>
+        <Button className="w-fit bg-emerald-900" onClick={() => router.back()}>
+          home
+        </Button>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
@@ -137,7 +139,14 @@ const PropertyDetailView = () => {
             )}
           </div>
         </div>
-        <BookingForm setLoadInfo={setLoadInfo} />
+        {property?.Booking?.length === 0 ||
+        property?.Booking?.some(
+          (booking: any) => booking?.progress === "available"
+        ) ? (
+          <BookingForm setLoadInfo={setLoadInfo} />
+        ) : (
+          " "
+        )}
       </div>
     </div>
   );
