@@ -5,9 +5,16 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { IoIosArrowForward } from "react-icons/io";
 import MobileMenu from "./mobile-menu";
+import { signOut, useSession } from "next-auth/react";
 
 export default function Header() {
   const [top, setTop] = useState<boolean>(true);
+  const session: any = useSession();
+  const role = session?.data?.role;
+  const handleSignOut = async () => {
+    await signOut();
+    window.location.href = "/";
+  }
   const scrollHandler = () => {
     window.pageYOffset > 10 ? setTop(false) : setTop(true);
   };
@@ -54,18 +61,33 @@ export default function Header() {
           </div>
 
           <nav className="hidden md:flex md:grow">
-            <ul className="flex grow justify-end flex-wrap items-center">
-              <li>
-                <Link
-                  href="/signin"
-                  className=" text-gray-200 bg-emerald-900 hover:bg-green-700 ml-3 flex gap-1 w-[120px] p-2 rounded shadow"
-                >
-                  <span className="ml-3 text-sm">Sign in</span>
-                  <span className="mt-[2px]">
-                    <IoIosArrowForward />
-                  </span>
-                </Link>
-              </li>
+            <ul className="flex  justify-end flex-wrap items-center">
+              <Link
+                href="/signin"
+                className={
+                  role
+                    ? "hidden"
+                    : " text-gray-200 bg-emerald-900 hover:bg-green-700 ml-3 flex gap-1 w-[120px] p-2 rounded shadow"
+                }
+              >
+                <span className="ml-3 text-sm">Sign in</span>
+                <span className="mt-[2px]">
+                  <IoIosArrowForward />
+                </span>
+              </Link>
+              <button
+                onClick={handleSignOut}
+                className={
+                  role
+                    ? " text-gray-200 bg-emerald-900 hover:bg-green-700 ml-3 flex gap-1 w-[120px] p-2 rounded shadow"
+                    : "hidden"
+                }
+              >
+                <span className="ml-3 text-sm">Sign out</span>
+                <span className="mt-[2px]">
+                  <IoIosArrowForward />
+                </span>
+              </button>
             </ul>
           </nav>
 

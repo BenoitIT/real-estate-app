@@ -7,11 +7,11 @@ export const Footer = () => {
     {
       name: "useful links",
       items: [
-        { name: "About us", path: "" },
-        { name: "services", path: "" },
+        { name: "About us", path: "/" },
+        { name: "services", path: "/#services" },
         {
           name: "solutions",
-          path: "",
+          path: "/#solution",
         },
       ],
     },
@@ -20,11 +20,11 @@ export const Footer = () => {
       items: [
         {
           name: "Buildings",
-          path: "",
+          path: "/proprties",
         },
         {
           name: "Land and other fixied assets",
-          path: "",
+          path: "/proprties",
         },
       ],
     },

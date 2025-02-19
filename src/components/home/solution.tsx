@@ -10,7 +10,6 @@ import Link from "next/link";
 
 export default function Solutions() {
   const [tab, setTab] = useState<number>(1);
-
   const tabs = useRef<HTMLDivElement>(null);
 
   const heightFix = () => {
@@ -81,7 +80,7 @@ export default function Solutions() {
                       {"Don't"} miss the opportunity to elevate your brand
                     </div>
                     <div className="w-full flex justify-end text-sm font-bold text-emerald-900 hover:text-emerald-700 mt-2">
-                      <Link href={""}>Explore now</Link>
+                      <Link href={"/properties"}>Explore now</Link>
                     </div>
                   </div>
                   <div className="flex justify-center items-center w-8 h-8 text-emerald-700 bg-white rounded-full shadow flex-shrink-0 ml-3">
@@ -116,7 +115,7 @@ export default function Solutions() {
                       experience today
                     </div>
                     <div className="w-full flex justify-end text-sm font-bold text-emerald-900 hover:text-emerald-700 mt-2">
-                      <Link href={""}>Explore now</Link>
+                      <Link href={"/properties"}>Explore now</Link>
                     </div>
                   </div>
                   <div className="flex justify-center items-center w-8 h-8 text-emerald-700 bg-white rounded-full shadow flex-shrink-0 ml-3">
@@ -146,7 +145,7 @@ export default function Solutions() {
                       location for your goals. Start your journey with us today
                     </div>
                     <div className="w-full flex justify-end text-sm font-bold text-emerald-900 hover:text-emerald-700 mt-2">
-                      <Link href={""}>Explore now</Link>
+                      <Link href={"/properties"}>Explore now</Link>
                     </div>
                   </div>
                   <div className="flex justify-center items-center w-8 h-8 text-emerald-700 bg-white rounded-full shadow flex-shrink-0 ml-3">

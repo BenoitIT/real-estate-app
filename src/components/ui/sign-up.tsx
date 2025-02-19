@@ -11,6 +11,8 @@ import { createAnaccount } from "@/app/services/users";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
+import { FaGoogle } from "react-icons/fa";
+import { signIn } from "next-auth/react";
 export const SignUp = ({
   className,
   ...props
@@ -58,7 +60,7 @@ export const SignUp = ({
     } else {
       setLoading(true);
       try {
-        payload.role=role;
+        payload.role = role;
         const response = await createAnaccount(payload);
         if (response?.status === 201) {
           toast.success("Account created successfully!");
@@ -68,12 +70,15 @@ export const SignUp = ({
           toast.error(response?.message || "Failed to create account");
         }
       } catch (error) {
-        console.error(error)
+        console.error(error);
         toast.error("An error occurred. Please try again.");
       } finally {
         setLoading(false);
       }
     }
+  };
+  const handleClick = async () => {
+    await signIn("google", { callbackUrl: "/dashboard" });
   };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -203,6 +208,10 @@ export const SignUp = ({
                 disabled={loading}
               >
                 {loading ? "Loading..." : "Sign up"}
+              </Button>
+              <Button variant="outline" type="button" className="w-full" onClick={handleClick}>
+                <FaGoogle />
+                <span>Sign up with Google</span>
               </Button>
 
               <div className="text-center text-sm">
