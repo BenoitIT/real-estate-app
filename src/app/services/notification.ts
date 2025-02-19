@@ -1,32 +1,11 @@
-import { bookingAppUrl } from "./axios";
+
 export const categoryBaseEndpoint = "/notification";
 export const getNotifications = async (user: number) => {
-  try {
-    const response = await bookingAppUrl.get(
-      `${categoryBaseEndpoint}?user=${user}`
-    );
-    return { data: response.data.data, status: response.data.status };
-  } catch (err) {
-    console.error(err);
-  }
+  console.log(user)
 };
 export const getNotificationsNumber = async (user: number) => {
-  try {
-    const response = await bookingAppUrl.get(
-      `${categoryBaseEndpoint}/count?user=${user}`
-    );
-    return { data: response.data.data, status: response.data.status };
-  } catch (err) {
-    console.error(err);
-  }
+  console.log(user)
 };
 export const markNotificationAsRead = async (user: number) => {
-  try {
-    const response = await bookingAppUrl.put(
-      `${categoryBaseEndpoint}?user=${user}`
-    );
-    return { message: response.data.message, status: response.data.status };
-  } catch (err) {
-    console.error(err);
-  }
+  console.log(user)
 };

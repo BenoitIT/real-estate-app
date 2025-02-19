@@ -37,3 +37,13 @@ export const UpdateAccount = async (id:string) => {
     console.error(err);
   }
 };
+export const deleteRequest = async (id: number) => {
+  try {
+    const response = await bookingAppUrl.delete(
+      bookingBaseEndpoint + `/${id}`
+    );
+    return response.data.message;
+  } catch (err) {
+    console.log(err);
+  }
+};
