@@ -1,16 +1,14 @@
 import prisma from "../../../../prisma/client";
 import NextAuth from "next-auth";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-// import { sifcoApi } from "@/app/httpservices/axios";
 
 export default NextAuth({
   session: {
     strategy: "jwt",
   },
-  adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -20,7 +18,7 @@ export default NextAuth({
       },
       async authorize(credentials): Promise<any> {
         if (!credentials?.email || !credentials?.password) return null;
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findFirst({
           where: {
             email: credentials.email,
           },
@@ -29,7 +27,7 @@ export default NextAuth({
           const isPasswordCorrect = await bcrypt.compare(
             credentials.password,
             user.password
-          ); 
+          );
           if (!isPasswordCorrect) return null;
           const token = jwt.sign(
             {
@@ -45,16 +43,62 @@ export default NextAuth({
         }
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
   ],
   callbacks: {
+    async signIn({ user, account, profile }: any) {
+      try {
+        if (account?.provider === "google") {
+          const existingUser = await prisma.user.findFirst({
+            where: {
+              email: user.email!,
+            },
+          });
+
+          if (!existingUser) {
+            const newUser = await prisma.user.create({
+              data: {
+                email: user.email!,
+                name: user.name || "",
+                password: "",
+                role: "host",
+                createdAt: new Date(),
+                updatedAt: new Date(),
+              },
+            });
+            user.id = newUser.id;
+            user.role = newUser.role;
+          } else {
+            user.id = existingUser.id;
+            user.role = existingUser.role;
+          }
+          return true;
+        }
+        return true;
+      } catch (error) {
+        return false;
+      }
+    },
     async jwt(params: any) {
-      const { token, user }: any = params;
+      const { token, user, account }: any = params;
+
       if (user) {
-        const customUser = user as unknown as any;
-        token.accessToken = customUser?.token;
-        token.name = customUser?.user?.name;
-        token.id = customUser?.user?.id;
-        token.email = customUser?.user?.email;
+        if (account?.provider === "google") {
+          token.id = user.id;
+          token.role = user.role;
+          token.email = user.email;
+          token.name = user.name;
+        } else {
+          const customUser = user as unknown as any;
+          token.accessToken = customUser?.token;
+          token.name = customUser?.user?.name;
+          token.id = customUser?.user?.id;
+          token.role = customUser?.user?.role;
+          token.email = customUser?.user?.email;
+        }
       }
       return token;
     },
@@ -62,7 +106,13 @@ export default NextAuth({
       const { session, token } = params;
       const customSession: any = {
         accessToken: token.accessToken,
-        id: token.id,
+        id: token?.id,
+        role: token?.role,
+        user: {
+          ...session.user,
+          id: token?.id,
+          role: token?.role,
+        },
       };
       return { ...session, ...customSession };
     },

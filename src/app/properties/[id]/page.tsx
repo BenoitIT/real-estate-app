@@ -5,30 +5,28 @@ import useSWR from "swr";
 import { getProperty } from "@/app/services/property";
 import { useParams } from "next/navigation";
 import BookingForm from "@/components/forms/bookForm";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import Loader from "@/components/loader";
+import ErrorSection from "@/components/error-section";
 
 const PropertyDetailView = () => {
   const params: any = useParams();
+  const router=useRouter();
   const propertyId = params?.id;
-  const [loadinfo,setLoadInfo]=useState(false);
-  const { data, isLoading, error } = useSWR([`${propertyId}`,`${loadinfo}`], () =>
-    getProperty(propertyId)
+  const [loadinfo, setLoadInfo] = useState(false);
+  const { data, isLoading, error } = useSWR(
+    [`${propertyId}`, `${loadinfo}`],
+    () => getProperty(propertyId)
   );
   if (isLoading) {
-    return (
-      <div className="container mx-auto px-4 py-8 flex justify-center items-center min-h-screen">
-        <p className="text-gray-600">Loading property details...</p>
-      </div>
-    );
+    return <Loader />;
   }
-  
+
   if (error) {
-    return (
-      <div className="container mx-auto px-4 py-8 flex justify-center items-center min-h-screen">
-        <p className="text-red-500">Error loading property details. Please try again.</p>
-      </div>
-    );
+    return <ErrorSection />;
   }
-  
+
   if (!data?.data) {
     return (
       <div className="container mx-auto px-4 py-8 flex justify-center items-center min-h-screen">
@@ -50,16 +48,19 @@ const PropertyDetailView = () => {
   };
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
-  
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">{property.name}</h1>
+      <div className="w-full flex justify-between">
+        <h1 className="text-2xl font-bold mb-6">{property.name}</h1>
+        <Button className="w-fit bg-emerald-900" onClick={()=>router.back()}>home</Button>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
           <div className="aspect-video w-full bg-gray-100 rounded-lg overflow-hidden">
@@ -80,22 +81,26 @@ const PropertyDetailView = () => {
                 <p className="text-gray-600">{property.location}</p>
               </div>
               <div className="text-right">
-                <p className="text-2xl font-bold">${property.pricepermonth}/mo</p>
+                <p className="text-2xl font-bold">
+                  ${property.pricepermonth}/mo
+                </p>
                 <span className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm">
-            {property?.Booking?.length === 0 ||
-            property?.Booking?.some(
-              (booking:any) => booking?.progress === "available"
-            )
-              ? "Active"
-              : "Not available"}
-          </span>
+                  {property?.Booking?.length === 0 ||
+                  property?.Booking?.some(
+                    (booking: any) => booking?.progress === "available"
+                  )
+                    ? "Active"
+                    : "Not available"}
+                </span>
               </div>
             </div>
 
             <div className="grid grid-cols-3 gap-4 py-4 border-y">
               <div>
                 <p className="text-gray-600">{property.measurement}</p>
-                <p className="font-semibold">{property.unitcount} {property.measurement}</p>
+                <p className="font-semibold">
+                  {property.unitcount} {property.measurement}
+                </p>
               </div>
               <div>
                 <p className="text-gray-600">Property Type</p>
@@ -103,7 +108,9 @@ const PropertyDetailView = () => {
               </div>
               <div>
                 <p className="text-gray-600">Listed</p>
-                <p className="font-semibold">{formatDate(property.createdAt)}</p>
+                <p className="font-semibold">
+                  {formatDate(property.createdAt)}
+                </p>
               </div>
             </div>
             <div>
@@ -130,7 +137,7 @@ const PropertyDetailView = () => {
             )}
           </div>
         </div>
-        <BookingForm setLoadInfo={setLoadInfo}/>
+        <BookingForm setLoadInfo={setLoadInfo} />
       </div>
     </div>
   );

@@ -10,28 +10,32 @@ import { Calendar } from "lucide-react";
 import { createBookingRequests } from "@/app/services/requests";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-const BookingForm = ({setLoadInfo}:{setLoadInfo:(value:boolean)=>void}) => {
-    const params: any = useParams();
+const BookingForm = ({
+  setLoadInfo,
+}: {
+  setLoadInfo: (value: boolean) => void;
+}) => {
+  const params: any = useParams();
   const propertyId = params?.id;
   const session: any = useSession();
+  const router = useRouter();
   const userid = session?.data?.id;
   const [payload, setPayload] = useState({
     sdate: "",
     edate: "",
-    fullname: "",
-    email: "",
+    fullname: session?.data?.user?.name,
+    email: session?.data?.user?.email,
     phone: "",
     note: "",
-    propertyId:"",
-    userId:""
+    propertyId: "",
+    userId: "",
   });
 
   const [errors, setErrors] = useState({
     sdate: "",
     edate: "",
-    fullname: "",
-    email: "",
     phone: "",
   });
 
@@ -48,8 +52,6 @@ const BookingForm = ({setLoadInfo}:{setLoadInfo:(value:boolean)=>void}) => {
     const newErrors = {
       sdate: "",
       edate: "",
-      fullname: "",
-      email: "",
       phone: "",
     };
 
@@ -59,14 +61,6 @@ const BookingForm = ({setLoadInfo}:{setLoadInfo:(value:boolean)=>void}) => {
     }
     if (!payload.edate) {
       newErrors.edate = "Preferred end date is required.";
-      hasError = true;
-    }
-    if (!payload.fullname) {
-      newErrors.fullname = "Full name is required.";
-      hasError = true;
-    }
-    if (!payload.email) {
-      newErrors.email = "Email is required.";
       hasError = true;
     }
     if (!payload.phone) {
@@ -81,12 +75,12 @@ const BookingForm = ({setLoadInfo}:{setLoadInfo:(value:boolean)=>void}) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validate()) {
-        payload.propertyId=propertyId;
-        payload.userId=userid;
+      payload.propertyId = propertyId;
+      payload.userId = userid;
       const response = await createBookingRequests(payload);
       if (response?.status === 201) {
         toast.success("Reservation request is sent successfully");
-        setLoadInfo(true)
+        setLoadInfo(true);
       } else {
         toast.error(response?.message || "Failed to send request");
       }
@@ -99,7 +93,7 @@ const BookingForm = ({setLoadInfo}:{setLoadInfo:(value:boolean)=>void}) => {
         <CardHeader className="pb-4">
           <h3 className="text-xl font-semibold">Book this property</h3>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className={userid ? "space-y-4" : "hidden"}>
           <form onSubmit={handleSubmit}>
             <div className="space-y-2">
               <Label>Preferred Date</Label>
@@ -113,9 +107,7 @@ const BookingForm = ({setLoadInfo}:{setLoadInfo:(value:boolean)=>void}) => {
                 />
                 <Calendar className="absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
                 {errors.edate && (
-                  <span className="text-xs text-red-500">
-                    {errors.edate}
-                  </span>
+                  <span className="text-xs text-red-500">{errors.edate}</span>
                 )}
               </div>
             </div>
@@ -131,36 +123,9 @@ const BookingForm = ({setLoadInfo}:{setLoadInfo:(value:boolean)=>void}) => {
                 />
                 <Calendar className="absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
                 {errors.edate && (
-                  <span className="text-xs text-red-500">
-                    {errors.edate}
-                  </span>
+                  <span className="text-xs text-red-500">{errors.edate}</span>
                 )}
               </div>
-            </div>
-            <div className="space-y-2">
-              <Label>Full Name</Label>
-              <Input
-                name="fullname"
-                placeholder="Your name"
-                value={payload.fullname}
-                onChange={handleChange}
-              />
-              {errors.fullname && (
-                <span className="text-xs text-red-500">{errors.fullname}</span>
-              )}
-            </div>
-            <div className="space-y-2">
-              <Label>Email</Label>
-              <Input
-                type="email"
-                name="email"
-                placeholder="your@email.com"
-                value={payload.email}
-                onChange={handleChange}
-              />
-              {errors.email && (
-                <span className="text-xs text-red-500">{errors.email}</span>
-              )}
             </div>
             <div className="space-y-2">
               <Label>Phone</Label>
@@ -189,6 +154,14 @@ const BookingForm = ({setLoadInfo}:{setLoadInfo:(value:boolean)=>void}) => {
               Confirm Booking
             </Button>
           </form>
+        </CardContent>
+        <CardContent className={userid ? "hidden" : "space-y-4"}>
+          <Button
+            className="w-full bg-emerald-900"
+            onClick={() => router.push("/signin")}
+          >
+            Login for reservation
+          </Button>
         </CardContent>
       </Card>
     </div>

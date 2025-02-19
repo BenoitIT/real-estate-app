@@ -8,6 +8,7 @@ import {
   Fence,
   Settings,
   Bell,
+  HomeIcon
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import {
@@ -53,6 +54,11 @@ const items = [
     title: "Notifications",
     url: "/dashboard/notifications",
     icon: Bell,
+  },
+  {
+    title: "Homepage",
+    url: "/",
+    icon: HomeIcon,
   },
   {
     title: "Settings",

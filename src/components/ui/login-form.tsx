@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import SignInWithGoogle from "./loginwithGoogle";
 
 export const LoginForm = ({
   className,
@@ -122,15 +123,7 @@ export const LoginForm = ({
                 </span>
               </div>
               <div className="flex justify-center w-full">
-                <Button
-                  variant="outline"
-                  className="w-fit"
-                  onClick={() => signIn("google")}
-                  disabled={loading}
-                >
-                  <FaGoogle />
-                  <span >Login with Google</span>
-                </Button>
+              <SignInWithGoogle/>
               </div>
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
