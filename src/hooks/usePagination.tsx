@@ -1,9 +1,9 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 
-const usePagination = (data: any, currentPage = 1) => {
+const usePagination = (data :any, currentPage = 1) => {
   const router = useRouter();
-  const searchParams: any = useSearchParams();
+  const searchParams :any = useSearchParams();
   const createQueryString = useCallback(
     (name: string, value: string) => {
       const params = new URLSearchParams(searchParams);

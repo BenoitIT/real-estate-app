@@ -9,7 +9,7 @@ export const PUT = async (req: Request) => {
     console.log(body)
     const user = await prisma.user.findFirst({
       where: {
-        id: Number(userId),
+        id:userId,
       },
     });
     if (user) {
@@ -25,7 +25,7 @@ export const PUT = async (req: Request) => {
       const hashedPassword = await bcrypt.hash(body.password, 10);
       const updatedUser = await prisma.user.update({
         where: {
-          id: Number(userId),
+          id: userId,
         },
         data: {
           password: hashedPassword,
@@ -43,6 +43,7 @@ export const PUT = async (req: Request) => {
       });
     }
   } catch (err) {
+    console.error(err)
     return NextResponse.json({
       status: 400,
       message: "something went wrong",

@@ -25,7 +25,7 @@ import { deleteProperty, getProperties } from "@/app/services/property";
 const Page = () => {
   const router = useRouter();
   const currentpath: string = usePathname()!;
-  const session: any = useSession();
+  const session :any = useSession();
   const [rowId, setRowId] = useState<any>();
   const [action, setRespondAction] = useState(false);
   const userId = session?.data?.id;

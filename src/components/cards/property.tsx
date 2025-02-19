@@ -16,7 +16,7 @@ interface PropertyProps {
     anemities: string[];
     createdAt: string;
     updatedAt: string;
-    Booking: any[];
+    Booking :any[];
   };
 }
 

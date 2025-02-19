@@ -12,7 +12,7 @@ export default function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session: any = useSession();
+  const session :any = useSession();
   const pathname: string | null = usePathname();
   const userId = session?.data?.id;
   const { data } = useSWR(

@@ -22,7 +22,7 @@ import { toast } from "react-toastify";
 import { deleteRequest, getRequests, UpdateAccount } from "@/app/services/requests";
 
 const Page = () => {
-  const session: any = useSession();
+  const session :any = useSession();
   const router = useRouter();
   const currentpath = usePathname();
   const [rowId, setRowId] = useState<any>();

@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 const Authlayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
-  const session: any = useSession();
+  const session :any = useSession();
   const accessToken = session?.data?.accessToken;
   const role = session?.data?.role;
   if (!accessToken) {

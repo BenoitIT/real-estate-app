@@ -1,12 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import useSWR from "swr";
 import { getProperty } from "@/app/services/property";
 import { useParams } from "next/navigation";
 
 const PropertyDetailView = () => {
-  const params: any = useParams();
+  const params :any = useParams();
   const propertyId = params?.id;
   const { data, isLoading, error } = useSWR([`${propertyId}`], () =>
     getProperty(propertyId)

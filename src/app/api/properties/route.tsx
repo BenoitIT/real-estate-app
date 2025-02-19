@@ -51,7 +51,7 @@ export const POST = async (req: NextRequest) => {
 };
 
 export const GET = async (req: Request) => {
-  const searchParm: any = new URL(req.url);
+  const searchParm :any = new URL(req.url);
   const userId = searchParm?.searchParams?.get("user");
   const properties = await prisma.properties.findMany({
     where: {

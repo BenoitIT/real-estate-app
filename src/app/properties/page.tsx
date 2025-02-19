@@ -23,7 +23,7 @@ interface Property {
   description: string;
   anemities: string[];
   createdAt: string;
-  Booking: any[];
+  Booking :any[];
   updatedAt: string;
 }
 

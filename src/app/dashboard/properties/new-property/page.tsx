@@ -24,7 +24,7 @@ const Page = ({ className, ...props }: React.ComponentProps<"div">) => {
   const router = useRouter();
   const [amenities, setAmenities] = useState<string[]>([]);
   const [newAmenity, setNewAmenity] = useState<string>("");
-  const session: any = useSession();
+  const session :any = useSession();
   const [payload, setPayload] = useState<Partial<propertyInfo>>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [errors, setErrors] = useState<Partial<propertyInfo>>({});

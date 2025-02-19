@@ -11,7 +11,7 @@ import Loader from "@/components/loader";
 import ErrorSection from "@/components/error-section";
 
 const PropertyDetailView = () => {
-  const params: any = useParams();
+  const params :any = useParams();
   const router = useRouter();
   const propertyId = params?.id;
   const [loadinfo, setLoadInfo] = useState(false);
@@ -89,7 +89,7 @@ const PropertyDetailView = () => {
                 <span className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm">
                   {property?.Booking?.length === 0 ||
                   property?.Booking?.some(
-                    (booking: any) => booking?.progress === "available"
+                    (booking :any) => booking?.progress === "available"
                   )
                     ? "Active"
                     : "Not available"}
@@ -141,7 +141,7 @@ const PropertyDetailView = () => {
         </div>
         {property?.Booking?.length === 0 ||
         property?.Booking?.some(
-          (booking: any) => booking?.progress === "available"
+          (booking :any) => booking?.progress === "available"
         ) ? (
           <BookingForm setLoadInfo={setLoadInfo} />
         ) : (

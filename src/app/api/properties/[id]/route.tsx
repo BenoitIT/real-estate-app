@@ -78,6 +78,7 @@ export const PUT = async (req: Request) => {
       message: "Coud not find the property",
     });
   } catch (err) {
+    console.error(err)
     return NextResponse.json({
       status: 400,
       message: "something went wrong",

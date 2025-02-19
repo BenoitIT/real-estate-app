@@ -9,7 +9,7 @@ import { signOut, useSession } from "next-auth/react";
 
 export default function Header() {
   const [top, setTop] = useState<boolean>(true);
-  const session: any = useSession();
+  const session :any = useSession();
   const role = session?.data?.role;
   const handleSignOut = async () => {
     await signOut();

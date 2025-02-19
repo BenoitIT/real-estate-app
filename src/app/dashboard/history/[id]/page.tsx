@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import { getBooking } from "@/app/services/requests";
 
 const Page = () => {
-  const params: any = useParams();
+  const params :any = useParams();
   const reverationId = params?.id;
   const { data, isLoading, error } = useSWR([`${reverationId}`], () =>
     getBooking(reverationId)
@@ -86,7 +86,7 @@ const Page = () => {
                 <span className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm">
                   {property?.Booking?.length === 0 ||
                   property?.Booking?.some(
-                    (booking: any) => booking?.progress === "available"
+                    (booking :any) => booking?.progress === "available"
                   )
                     ? "Active"
                     : "Not available"}
