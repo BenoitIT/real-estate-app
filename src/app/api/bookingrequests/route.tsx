@@ -24,17 +24,25 @@ export const POST = async (req: NextRequest) => {
           validation.error.errors[0].message,
         status: 400,
       });
-    const checkIfAllowedToBook = await prisma.booking.findFirst({
+    const checkIfAllowedToBook = await prisma.properties.findFirst({
       where: {
-        propertyId: body.propertyId,
-        progress: "available",
+        id: body.propertyId,
       },
     });
-    if (!checkIfAllowedToBook)
+    const checkIfPropertyAllowedToBook = await prisma.booking.findFirst({
+      where: {
+        propertyId: body.propertyId,
+      },
+    });
+    if (
+      !checkIfAllowedToBook ||
+      checkIfPropertyAllowedToBook?.progress === "available"
+    )
       return NextResponse.json({
         status: 400,
         message: "Property you are trying to book is not available for now",
       });
+      console.log("body",body)
     const booking = await prisma.booking.create({
       data: {
         sdate: body.sdate,
@@ -54,6 +62,7 @@ export const POST = async (req: NextRequest) => {
       data: booking,
     });
   } catch (err) {
+    console.error(err)
     return NextResponse.json({
       status: 400,
       message: "Unexpected error occurs",
@@ -75,3 +84,4 @@ export const GET = async (req: Request) => {
     data: properties,
   });
 };
+

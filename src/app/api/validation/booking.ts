@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 const bookingValidationSchema = z.object({
-  sdate: z.date(),
-  edate: z.date(),
+  sdate: z.string(),
+  edate: z.string(),
   fullname: z.string(),
   phone: z.string(),
 });

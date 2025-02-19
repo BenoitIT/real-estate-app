@@ -5,7 +5,7 @@ export const headers = [
     { header: "Email", field: "email" },
     { header: "Phone", field: "phone" },
     { header: "Progress", field: "progress" },
-    { header: "Created at", field: "created at" },
+    { header: "Created at", field: "createdAt" },
   ];
 
   

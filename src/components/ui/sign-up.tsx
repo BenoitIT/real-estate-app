@@ -10,6 +10,7 @@ import { userInfo, userInfoError } from "@/interfaces/users";
 import { createAnaccount } from "@/app/services/users";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { Checkbox } from "@/components/ui/checkbox";
 export const SignUp = ({
   className,
   ...props
@@ -18,6 +19,7 @@ export const SignUp = ({
   const [payload, setPayload] = useState<userInfo>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [errors, setErrors] = useState<userInfoError>({});
+  const [role, setRole] = useState<string>("host");
   const ErrorLogger = (errorKey: string, errorMessage: string | null) => {
     setErrors((prevState: userInfoError) => ({
       ...prevState,
@@ -56,15 +58,17 @@ export const SignUp = ({
     } else {
       setLoading(true);
       try {
+        payload.role=role;
         const response = await createAnaccount(payload);
         if (response?.status === 201) {
           toast.success("Account created successfully!");
           form.reset();
-          router.push("/");
+          router.push("/signup");
         } else {
           toast.error(response?.message || "Failed to create account");
         }
       } catch (error) {
+        console.error(error)
         toast.error("An error occurred. Please try again.");
       } finally {
         setLoading(false);
@@ -75,7 +79,7 @@ export const SignUp = ({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8" onSubmit={handleSubmit}>
+          <form className="p-6 md:p-10" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Sign up</h1>
@@ -85,7 +89,13 @@ export const SignUp = ({
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="fname">First name</Label>
-                <Input id="name" name="name" type="name" placeholder="John" onChange={handleChange} />
+                <Input
+                  id="name"
+                  name="name"
+                  type="name"
+                  placeholder="John"
+                  onChange={handleChange}
+                />
                 <span
                   className={errors?.name ? "text-xs text-red-500" : "hidden"}
                 >
@@ -94,7 +104,13 @@ export const SignUp = ({
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="lname">Last name</Label>
-                <Input id="lname" name="lname" type="lname" placeholder="Doe" onChange={handleChange} />
+                <Input
+                  id="lname"
+                  name="lname"
+                  type="lname"
+                  placeholder="Doe"
+                  onChange={handleChange}
+                />
                 <span
                   className={errors?.name ? "text-xs text-red-500" : "hidden"}
                 >
@@ -111,7 +127,7 @@ export const SignUp = ({
                   onChange={handleChange}
                 />
                 <span
-                  className={errors?.email? "text-xs text-red-500" : "hidden"}
+                  className={errors?.email ? "text-xs text-red-500" : "hidden"}
                 >
                   {errors?.email}
                 </span>
@@ -149,6 +165,37 @@ export const SignUp = ({
                 >
                   {errors?.cpassword}
                 </span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="renter"
+                  checked={role === "renter"}
+                  onCheckedChange={(checked) => {
+                    setRole(checked ? "renter" : "");
+                  }}
+                />
+                <label
+                  htmlFor="renter"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Sign up for rental booking purpose
+                </label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="host"
+                  checked={role == "host"}
+                  value={role}
+                  onCheckedChange={(checked) => {
+                    setRole(checked ? "host" : "");
+                  }}
+                />
+                <label
+                  htmlFor="host"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Sign up for rental property provider
+                </label>
               </div>
               <Button
                 type="submit"

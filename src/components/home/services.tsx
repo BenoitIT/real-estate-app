@@ -22,7 +22,7 @@ export default function Services() {
               Rental booking provides a seamless rental booking experience for
               both renters and property owners. Our services include secure user
               authentication, effortless property listings, instant bookings,
-              and reliable payment solutions. Whether you're looking to book
+              and reliable payment solutions. Whether {"you're"} looking to book
               your next stay or list a residential building, our platform makes
               the process smooth and efficient.
             </p>

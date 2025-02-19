@@ -2,7 +2,7 @@
 import React, { Suspense, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from "recharts";
-import { DollarSign, CreditCard, Activity } from "lucide-react";
+import {  CreditCard, Activity } from "lucide-react";
 import { DatePickerWithRange } from "@/components/ui/datepicker";
 import { DateRange } from "react-day-picker";
 import useSWR from "swr";
@@ -10,7 +10,6 @@ import { useSession } from "next-auth/react";
 import { getStatistics } from "../services/dashboard";
 import Loader from "@/components/loader";
 import ErrorSection from "@/components/error-section";
-
 
 const Page = () => {
   const session: any = useSession();
@@ -35,7 +34,7 @@ const Page = () => {
           <DatePickerWithRange date={date} setDate={setDate} />
         </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="bg-white  text-zinc-950 border-zinc-300">
+          <Card className="bg-white  text-zinc-950 border-zinc-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-zinc-950">
                 My properties
@@ -44,10 +43,11 @@ const Page = () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-zinc-950">
-                $
-                {Intl.NumberFormat("en-Us").format(data.data?.currentYearBuget)}
+                {Intl.NumberFormat("en-Us").format(data.data?.totalProperties)}
               </div>
-              <p className="text-xs text-zinc-500">overall properties registred</p>
+              <p className="text-xs text-zinc-500">
+                overall properties registred
+              </p>
             </CardContent>
           </Card>
           <Card className="bg-white border-zinc-300">
@@ -55,11 +55,11 @@ const Page = () => {
               <CardTitle className="text-sm font-medium text-zinc-950">
                 Total pending request
               </CardTitle>
-              <DollarSign className="h-4 w-4 text-zinc-500" />
+              <CreditCard className="h-4 w-4 text-zinc-500" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-zinc-950">
-                ${Intl.NumberFormat("en-Us").format(data.data?.totalIncomeMade)}
+                {Intl.NumberFormat("en-Us").format(data.data?.pendingBookings)}
               </div>
               <p className="text-xs text-zinc-950">From selected range</p>
             </CardContent>
@@ -69,17 +69,16 @@ const Page = () => {
               <CardTitle className="text-sm font-medium text-zinc-950">
                 Total properties in-use
               </CardTitle>
-              <DollarSign className="h-4 w-4 text-zinc-500" />
+              <CreditCard className="h-4 w-4 text-zinc-500" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-zinc-950">
-                ${" "}
-                {Intl.NumberFormat("en-Us").format(data.data?.totalExpenseMade)}
+                {Intl.NumberFormat("en-Us").format(data.data?.propertiesInUse)}
               </div>
               <p className="text-xs text-zinc-500">From selected range</p>
             </CardContent>
           </Card>
-          
+
           <Card className="bg-white border-zinc-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-zinc-950">
@@ -89,8 +88,7 @@ const Page = () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-zinc-950">
-                {data.data?.expenseCount > 0 ? "+" : ""}
-                {Intl.NumberFormat("en-Us").format(data.data?.expenseCount)}
+                {Intl.NumberFormat("en-Us").format(data.data?.uniqueClients)}
               </div>
               <p className="text-xs text-zinc-500">From selected range</p>
             </CardContent>
@@ -100,11 +98,13 @@ const Page = () => {
         <div className="grid gap-4 md:grid-cols-7">
           <Card className="col-span-4 bg-white border-zinc-300">
             <CardHeader>
-              <CardTitle className="text-zinc-950">Monthly statistics</CardTitle>
+              <CardTitle className="text-zinc-950">
+                Monthly statistics
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={350}>
-                <BarChart data={data.data?.chatRecords}>
+                <BarChart data={data.data?.monthlyStats}>
                   <XAxis dataKey="month" stroke="#525252" fontSize={12} />
                   <YAxis
                     stroke="#525252"
@@ -121,28 +121,31 @@ const Page = () => {
             <CardHeader>
               <CardTitle className="text-zinc-950">Recent bookings</CardTitle>
               <div className="text-sm text-zinc-500">
-                My most recent expenses.
+                My most recent bookings.
               </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-8">
-                {data.data?.simpleExapnsesRecord?.map(
+                {data.data?.recentBookings?.map(
                   (
                     expense: {
-                      ExpName: string;
-                      ExpType: string;
+                      propertyName: string;
+                      clientName: string;
                       amount: string;
-                      date:string
+                      status: string;
                     },
                     i: number
                   ) => (
                     <div key={i} className="flex items-center">
                       <div className="ml-4 space-y-1">
                         <p className="text-sm font-medium text-zinc-950">
-                          {expense.ExpType}
+                          {expense.clientName}
                         </p>
                         <p className="text-sm text-zinc-500">
-                          <span>{expense.ExpName}</span>,  <span className="text-xs text-black">{expense.date}</span>
+                          <span>{expense.propertyName}</span>,{" "}
+                          <span className="text-xs text-black">
+                            {expense.status}
+                          </span>
                         </p>
                       </div>
                       <div className="ml-auto font-medium text-zinc-950">

@@ -1,9 +1,8 @@
 import { z } from "zod";
 
 const propertyValidationSchema = z.object({
-  userId: z.number(),
+  userId: z.string(),
   name: z.string(),
-  type: z.string(),
   ptype: z.string(),
   measurement: z.string(),
   pricepermonth: z.number(),
