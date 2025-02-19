@@ -22,17 +22,6 @@ const Page = () => {
     () => getNotifications(userId)
   );
   const handleMarkNotificationASread = async () => {
-    try {
-      const response = await markNotificationAsRead(userId);
-      if (response?.status === 200) {
-        toast.success(response?.message);
-      } else {
-        toast.error(response?.message || "Failed to create category");
-      }
-    } catch (error) {
-      toast.error("An error occurred. Please try again.");
-    } finally {
-    }
   };
   if (data) {
     return (
@@ -58,22 +47,10 @@ const Page = () => {
             </div>
             <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
               <dl className="sm:divide-y sm:divide-gray-200">
-                {data.data?.length > 0 ? (
-                  data.data.map((note: Notification) => (
-                    <div className="py-3 sm:py-5 sm:grid sm:grid-cols-1 sm:gap-4 sm:px-6 even:bg-gray-50">
-                      <dt className="text-sm font-medium text-gray-700 flex gap-2">
-                        <span>
-                          <Bell className="w-[20px] text-gray-500" />
-                        </span>
-                        <span>{note.title}</span>
-                      </dt>
-                    </div>
-                  ))
-                ) : (
                   <dt className="text-sm font-medium text-gray-700 flex justify-center py-4">
                     <span>No notification found</span>
                   </dt>
-                )}
+             
               </dl>
             </div>
           </div>

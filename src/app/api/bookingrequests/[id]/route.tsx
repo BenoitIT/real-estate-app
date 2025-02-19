@@ -23,7 +23,7 @@ export const GET = async (req: Request) => {
       message: null,
     });
   } catch (err) {
-    console.error(err)
+    console.error(err);
     return NextResponse.json({
       status: 400,
       message: "something went wrong",
@@ -54,6 +54,32 @@ export const PUT = async (req: Request) => {
     });
   } catch (err) {
     console.log("errr", err);
+    return NextResponse.json({
+      status: 400,
+      message: "something went wrong",
+    });
+  }
+};
+export const DELETE = async (req: Request) => {
+  try {
+    const propertyId = req.url.split("bookingrequests/")[1];
+    const propertyToDelete = await prisma.booking.delete({
+      where: {
+        id: propertyId,
+      },
+    });
+    if (propertyToDelete) {
+      return NextResponse.json({
+        status: 200,
+        message: "Request is rejected successfully",
+      });
+    }
+    return NextResponse.json({
+      status: 404,
+      message: "Request is not found",
+    });
+  } catch (err) {
+    console.error(err);
     return NextResponse.json({
       status: 400,
       message: "something went wrong",

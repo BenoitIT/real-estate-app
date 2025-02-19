@@ -42,7 +42,7 @@ export const POST = async (req: NextRequest) => {
         status: 400,
         message: "Property you are trying to book is not available for now",
       });
-      console.log("body",body)
+    console.log("body", body);
     const booking = await prisma.booking.create({
       data: {
         sdate: body.sdate,
@@ -62,7 +62,7 @@ export const POST = async (req: NextRequest) => {
       data: booking,
     });
   } catch (err) {
-    console.error(err)
+    console.error(err);
     return NextResponse.json({
       status: 400,
       message: "Unexpected error occurs",
@@ -75,7 +75,7 @@ export const GET = async (req: Request) => {
   const userId = searchParams?.get("user");
   const properties = await prisma.booking.findMany({
     where: {
-      userId: userId,
+      property: { userId: userId },
       progress: "awaiting",
     },
   });
@@ -84,4 +84,3 @@ export const GET = async (req: Request) => {
     data: properties,
   });
 };
-
