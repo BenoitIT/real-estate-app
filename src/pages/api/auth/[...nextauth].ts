@@ -49,7 +49,7 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile }: any) {
+    async signIn({ user, account } :any) {
       try {
         if (account?.provider === "google") {
           const existingUser = await prisma.user.findFirst({
@@ -79,11 +79,12 @@ export default NextAuth({
         }
         return true;
       } catch (error) {
+        console.error(error)
         return false;
       }
     },
-    async jwt(params: any) {
-      const { token, user, account }: any = params;
+    async jwt(params :any) {
+      const { token, user, account } :any = params;
 
       if (user) {
         if (account?.provider === "google") {
@@ -102,9 +103,9 @@ export default NextAuth({
       }
       return token;
     },
-    async session(params: any) {
+    async session(params :any) {
       const { session, token } = params;
-      const customSession: any = {
+      const customSession :any = {
         accessToken: token.accessToken,
         id: token?.id,
         role: token?.role,

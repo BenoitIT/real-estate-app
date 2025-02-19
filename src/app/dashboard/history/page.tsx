@@ -10,7 +10,7 @@ import { useSession } from "next-auth/react";
 import { getBookings } from "@/app/services/used";
 
 const Page = () => {
-  const session: any = useSession();
+  const session :any = useSession();
   const userId = session?.data?.id;
   const router = useRouter();
   const currentpath = usePathname();

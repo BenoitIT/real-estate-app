@@ -1,20 +1,16 @@
 "use client";
 import {
   getNotifications,
-  markNotificationAsRead,
 } from "@/app/services/notification";
 import ErrorSection from "@/components/error-section";
 import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { Suspense } from "react";
-import { Notification } from "@/interfaces/notification";
 import useSWR from "swr";
-import { Bell } from "lucide-react";
-import { toast } from "react-toastify";
 
 const Page = () => {
-  const session: any = useSession();
+  const session :any = useSession();
 
   const userId = session?.data?.id;
   const { data, isLoading, error } = useSWR(

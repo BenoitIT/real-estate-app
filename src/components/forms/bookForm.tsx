@@ -17,9 +17,9 @@ const BookingForm = ({
 }: {
   setLoadInfo: (value: boolean) => void;
 }) => {
-  const params: any = useParams();
+  const params :any = useParams();
   const propertyId = params?.id;
-  const session: any = useSession();
+  const session :any = useSession();
   const router = useRouter();
   const userid = session?.data?.id;
   const [payload, setPayload] = useState({

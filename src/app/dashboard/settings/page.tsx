@@ -9,7 +9,7 @@ import { userInfo, userInfoError } from "@/interfaces/users";
 import { updatePassword } from "@/app/services/users";
 import { toast } from "react-toastify";
 const Page = () => {
-  const session: any = useSession();
+  const session :any = useSession();
   const username = session?.data?.user?.name;
   const email = session?.data?.user?.email;
   const [expand, setExapand] = useState(false);

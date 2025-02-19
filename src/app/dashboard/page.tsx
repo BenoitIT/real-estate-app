@@ -12,7 +12,7 @@ import Loader from "@/components/loader";
 import ErrorSection from "@/components/error-section";
 
 const Page = () => {
-  const session: any = useSession();
+  const session :any = useSession();
   const userId = session?.data?.id;
   const [date, setDate] = useState<DateRange | undefined>({
     from: new Date(new Date().setDate(new Date().getDate() - 30)),

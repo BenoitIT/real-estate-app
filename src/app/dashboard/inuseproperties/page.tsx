@@ -23,7 +23,7 @@ import { UpdateAccount } from "@/app/services/in-use-properties";
 import { getInuseProperties } from "@/app/services/in-use-properties";
 
 const Page = () => {
-  const session: any = useSession();
+  const session :any = useSession();
   const [rowId, setRowId] = useState<any>();
   const [action, setRespondAction] = useState(false);
   const userId = session?.data?.id;
