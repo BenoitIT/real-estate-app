@@ -20,9 +20,11 @@ export const getProperties = async (user: number) => {
     console.error(err);
   }
 };
-export const getPropertiesGeneral = async () => {
+export const getPropertiesGeneral = async (search: string) => {
   try {
-    const response = await bookingAppUrl.get(`${propertyBaseEndpoint}/all`);
+    const response = await bookingAppUrl.get(
+      `${propertyBaseEndpoint}/all?search=${search}`
+    );
     return { data: response.data.data, status: response.data.status };
   } catch (err) {
     console.error(err);

@@ -54,6 +54,13 @@ model Booking {
   updatedAt  DateTime   @updatedAt
 }
 
+model Message {
+  id          String @id @default(uuid())
+  title       String
+  senderemail String
+  message     String
+}
+
 model Notification {
   id        String   @id @default(uuid())
   userId    String

@@ -7,7 +7,7 @@ import Pagination from "@/components/fillters/pagination";
 import PropertyFilters from "@/components/fillters/productFilters";
 import { getPropertiesGeneral } from "../services/property";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Loader from "@/components/loader";
 import ErrorSection from "@/components/error-section";
 
@@ -23,16 +23,18 @@ interface Property {
   description: string;
   anemities: string[];
   createdAt: string;
-  Booking :any[];
+  Booking: any[];
   updatedAt: string;
 }
 
 const Page = () => {
   const router = useRouter();
+  const searchParam = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(8);
-  const { data, isLoading, error } = useSWR(["propertiesgeneral"], () =>
-    getPropertiesGeneral()
+  const search = searchParam?.get("search");
+  const { data, isLoading, error } = useSWR(["propertiesgeneral",`${search}`], () =>
+    getPropertiesGeneral(search!)
   );
 
   if (isLoading) {

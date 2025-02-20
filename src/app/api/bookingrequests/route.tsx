@@ -42,7 +42,6 @@ export const POST = async (req: NextRequest) => {
         status: 400,
         message: "Property you are trying to book is not available for now",
       });
-    console.log("body", body);
     const booking = await prisma.booking.create({
       data: {
         sdate: body.sdate,

@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import { Input } from "../ui/input";
+import { createMessage } from "@/app/services/message";
 
 export default function ContactUs() {
   const [email, setEmail] = useState("");
@@ -10,19 +11,12 @@ export default function ContactUs() {
   const [message, setMessage] = useState("");
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await fetch("/api/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        subject,
-        message,
-      }),
+    const data = await createMessage({
+      title: subject,
+      senderemail: email,
+      message: message,
     });
-    const data = await response.json();
-    if (data.status == 201) {
+    if (data?.status) {
       toast.success(data.message);
       setEmail("");
       setSubject("");

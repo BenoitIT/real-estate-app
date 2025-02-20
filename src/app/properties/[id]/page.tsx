@@ -60,7 +60,7 @@ const PropertyDetailView = () => {
       <div className="w-full flex justify-between">
         <h1 className="text-2xl font-bold mb-6">{property.name}</h1>
         <Button className="w-fit bg-emerald-900" onClick={() => router.back()}>
-          home
+          back
         </Button>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
