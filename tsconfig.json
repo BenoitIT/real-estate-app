@@ -27,7 +27,9 @@
         "./src/*"
       ]
     },
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "noImplicitAny": false,
+    "useUnknownInCatchVariables": false
   },
   "include": [
     "next-env.d.ts",
