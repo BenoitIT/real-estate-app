@@ -21,7 +21,7 @@ export default function DashboardLayout({
   );
   return (
     <div className=" min-h-screen h-full flex w-full">
-      <NotificationContext.Provider value={{ count: data?.data || 0 }}>
+      <NotificationContext.Provider value={{ count:  0 }}>
         <SidebarProvider>
           <div className="w-[20%] md:w-[15vw] lg:w-[16%]  p-4 sticky top-0 h-screen">
             <AppSidebar />

@@ -20,7 +20,7 @@ import { X } from "lucide-react";
 import { propertyInfo } from "@/interfaces/property";
 import { createProperty } from "@/app/services/property";
 
-const Page = ({ className, ...props }: React.ComponentProps<"div">) => {
+const Page = () => {
   const router = useRouter();
   const [amenities, setAmenities] = useState<string[]>([]);
   const [newAmenity, setNewAmenity] = useState<string>("");
@@ -136,7 +136,7 @@ const Page = ({ className, ...props }: React.ComponentProps<"div">) => {
     }
   };
   return (
-    <div className={cn("flex flex-col gap-6 mt-6", className)} {...props}>
+    <div className={"flex flex-col gap-6 mt-6"}>
       <b
         className="font-semibold text-base hover:cursor-pointer"
         onClick={() => router.back()}
