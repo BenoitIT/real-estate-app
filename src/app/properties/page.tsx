@@ -1,7 +1,7 @@
 "use client";
 
 import useSWR from "swr";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import PropertyCard from "@/components/cards/property";
 import Pagination from "@/components/fillters/pagination";
 import PropertyFilters from "@/components/fillters/productFilters";
@@ -23,7 +23,7 @@ interface Property {
   description: string;
   anemities: string[];
   createdAt: string;
-  Booking :any[];
+  Booking: any[];
   updatedAt: string;
 }
 
@@ -103,4 +103,10 @@ const Page = () => {
   );
 };
 
-export default Page;
+const SuspensePage = () => (
+  <Suspense fallback={<Loader />}>
+    <Page />
+  </Suspense>
+);
+
+export default SuspensePage;
