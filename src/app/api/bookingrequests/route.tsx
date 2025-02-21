@@ -1,53 +1,75 @@
 import prisma from "../../../../prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import bookingValidationSchema from "../validation/booking";
+
 export const revalidate = 0;
+
 export const POST = async (req: NextRequest) => {
   try {
     const body = await req.json();
-    const checkPropertyNameExistance = await prisma.properties.findFirst({
-      where: {
-        id: body.propertyId,
-      },
+    const validation = bookingValidationSchema.safeParse(body);
+    if (!validation.success) {
+      return NextResponse.json({
+        message: `${validation.error.errors[0].path} ${validation.error.errors[0].message}`,
+        status: 400,
+      });
+    }
+    const property = await prisma.properties.findFirst({
+      where: { id: body.propertyId },
     });
-    if (!checkPropertyNameExistance)
+
+    if (!property) {
       return NextResponse.json({
         status: 400,
         message: "Property you are trying to book does not exist",
       });
-    const validation = bookingValidationSchema.safeParse(body);
-    if (!validation.success)
+    }
+    const startDate = new Date(body.sdate);
+    const endDate = new Date(body.edate);
+    if (startDate >= endDate) {
       return NextResponse.json({
-        message:
-          validation.error.errors[0].path +
-          " " +
-          validation.error.errors[0].message,
         status: 400,
+        message: "Start date must be before end date",
       });
-    const checkIfAllowedToBook = await prisma.properties.findFirst({
-      where: {
-        id: body.propertyId,
-      },
-    });
-    const checkIfPropertyAllowedToBook = await prisma.booking.findFirst({
+    }
+    const overlappingBookings = await prisma.booking.findMany({
       where: {
         propertyId: body.propertyId,
+        progress: {
+          in: ["pending", "confirmed"] 
+        },
+        AND: [
+          {
+            sdate: {
+              lte: endDate, 
+            },
+          },
+          {
+            edate: {
+              gte: startDate!,
+            },
+          },
+        ],
       },
     });
-    if (
-      !checkIfAllowedToBook ||
-      checkIfPropertyAllowedToBook?.progress === "available"
-    )
+
+    if (overlappingBookings.length > 0) {
       return NextResponse.json({
         status: 400,
-        message: "Property you are trying to book is not available for now",
+        message: "Property is already booked for these dates",
+        conflictingDates: overlappingBookings.map(booking => ({
+          start: booking.sdate,
+          end: booking.edate,
+          status: booking.progress
+        }))
       });
+    }
     const booking = await prisma.booking.create({
       data: {
-        sdate: body.sdate,
-        edate: body.edate,
+        sdate: startDate,
+        edate: endDate,
         propertyId: body.propertyId,
-        progress: "awaiting",
+        progress: "pending",
         fullname: body.fullname,
         email: body.email || "",
         phone: body.phone,
@@ -60,11 +82,12 @@ export const POST = async (req: NextRequest) => {
       message: "Booking request is sent successfully",
       data: booking,
     });
+
   } catch (err) {
-    console.error(err);
+    console.error("Booking error:", err);
     return NextResponse.json({
-      status: 400,
-      message: "Unexpected error occurs",
+      status: 500,
+      message: "An unexpected error occurred while processing your booking",
     });
   }
 };
@@ -72,10 +95,11 @@ export const POST = async (req: NextRequest) => {
 export const GET = async (req: Request) => {
   const { searchParams } :any = new URL(req.url);
   const userId = searchParams?.get("user");
+  console.log("user idd",userId)
   const properties = await prisma.booking.findMany({
     where: {
-      property: { userId: userId },
-      progress: "awaiting",
+      userId: userId,
+      progress: "pending",
     },
   });
   return NextResponse.json({

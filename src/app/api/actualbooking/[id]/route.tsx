@@ -7,7 +7,7 @@ export const PUT = async (req: Request) => {
     const booking = await prisma.booking.update({
       where: {
         id: bookingId,
-        progress: "booked",
+        progress: "confirmed",
       },
       data: {
         progress: "available",
@@ -16,7 +16,7 @@ export const PUT = async (req: Request) => {
     if (booking) {
       return NextResponse.json({
         status: 200,
-        message: "Property is now available. it can be booked again!",
+        message: "Property is now available. it can be  confirmed again!",
       });
     }
     return NextResponse.json({

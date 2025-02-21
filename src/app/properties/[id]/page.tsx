@@ -11,7 +11,7 @@ import Loader from "@/components/loader";
 import ErrorSection from "@/components/error-section";
 
 const PropertyDetailView = () => {
-  const params :any = useParams();
+  const params: any = useParams();
   const router = useRouter();
   const propertyId = params?.id;
   const [loadinfo, setLoadInfo] = useState(false);
@@ -38,12 +38,10 @@ const PropertyDetailView = () => {
   const amenities = property.anemities || [];
   const getPropertyImage = (ptype: string) => {
     switch (ptype.toLowerCase()) {
-      case "residential building":
+      case "hotel":
         return "/residental.jpg";
-      case "commercial building":
-        return "/realestate.jpg";
       default:
-        return "/land.jpg";
+        return "/realestate.jpg";
     }
   };
   const formatDate = (dateString: string) => {
@@ -84,15 +82,10 @@ const PropertyDetailView = () => {
               </div>
               <div className="text-right">
                 <p className="text-2xl font-bold">
-                  ${property.pricepermonth}/mo
+                  ${property.pricepermonth}/night
                 </p>
                 <span className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm">
-                  {property?.Booking?.length === 0 ||
-                  property?.Booking?.some(
-                    (booking :any) => booking?.progress === "available"
-                  )
-                    ? "Active"
-                    : "Not available"}
+                  Active
                 </span>
               </div>
             </div>
@@ -139,14 +132,7 @@ const PropertyDetailView = () => {
             )}
           </div>
         </div>
-        {property?.Booking?.length === 0 ||
-        property?.Booking?.some(
-          (booking :any) => booking?.progress === "available"
-        ) ? (
-          <BookingForm setLoadInfo={setLoadInfo} />
-        ) : (
-          " "
-        )}
+        <BookingForm setLoadInfo={setLoadInfo} />
       </div>
     </div>
   );

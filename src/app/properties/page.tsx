@@ -32,7 +32,7 @@ const Page = () => {
   const searchParam = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(8);
-  const search = searchParam?.get("search");
+  const search = searchParam?.get("search")||"";
   const { data, isLoading, error } = useSWR(["propertiesgeneral",`${search}`], () =>
     getPropertiesGeneral(search!)
   );
@@ -110,5 +110,4 @@ const SuspensePage = () => (
     <Page />
   </Suspense>
 );
-
-export default SuspensePage;
+export default SuspensePage

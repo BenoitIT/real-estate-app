@@ -38,12 +38,10 @@ const PropertyDetailView = () => {
   const amenities = property.anemities || [];
   const getPropertyImage = (ptype: string) => {
     switch (ptype.toLowerCase()) {
-      case "residential building":
+      case "hotel":
         return "/residental.jpg";
-      case "commercial building":
-        return "/realestate.jpg";
       default:
-        return "/land.jpg";
+        return "/realestate.jpg";
     }
   };
   const formatDate = (dateString: string) => {

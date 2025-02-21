@@ -16,7 +16,7 @@ interface PropertyProps {
     anemities: string[];
     createdAt: string;
     updatedAt: string;
-    Booking :any[];
+    Booking: any[];
   };
 }
 
@@ -27,12 +27,10 @@ const PropertyCard = ({ property }: PropertyProps) => {
   })} ${updatedDate.getDate()}`;
   const getPropertyImage = (ptype: string) => {
     switch (ptype.toLowerCase()) {
-      case "residential building":
+      case "hotel":
         return "/residental.jpg";
-      case "commercial building":
-        return "/realestate.jpg";
       default:
-        return "/land.jpg";
+        return "/realestate.jpg";
     }
   };
 
@@ -60,12 +58,7 @@ const PropertyCard = ({ property }: PropertyProps) => {
       <CardContent className="pb-4">
         <div className="flex items-center gap-3 mb-4">
           <span className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm">
-            {property?.Booking?.length === 0 ||
-            property?.Booking?.some(
-              (booking) => booking.progress === "available"
-            )
-              ? "Active"
-              : "Not available"}
+            {"Active"}
           </span>
           <span className="text-gray-600 text-sm">Updated {formattedDate}</span>
           <Link

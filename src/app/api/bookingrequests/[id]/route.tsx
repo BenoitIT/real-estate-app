@@ -36,10 +36,10 @@ export const PUT = async (req: Request) => {
     const booking = await prisma.booking.update({
       where: {
         id: bookingId,
-        progress: "awaiting",
+        progress: "pending",
       },
       data: {
-        progress: "booked",
+        progress: "confirmed",
       },
     });
     if (booking) {
