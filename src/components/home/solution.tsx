@@ -71,13 +71,13 @@ export default function Solutions() {
                 >
                   <div>
                     <div className="font-bold leading-snug tracking-tight mb-4 text-base">
-                      Commercial building
+                      Hotel
                     </div>
                     <div className="text-gray-600 text-sm">
-                      Looking for the perfect space to grow your business? Book
-                      a commercial building with us and enjoy prime locations,
-                      modern amenities, and tailored solutions for your needs.
-                      {"Don't"} miss the opportunity to elevate your brand
+                      Looking for the perfect space to stay safely? Book
+                      a hotel with us and enjoy prime locations,
+                      modern amenities.
+                      {"Don't"} miss the opportunity to book now
                     </div>
                     <div className="w-full flex justify-end text-sm font-bold text-emerald-900 hover:text-emerald-700 mt-2">
                       <Link href={"/properties"}>Explore now</Link>
@@ -122,36 +122,7 @@ export default function Solutions() {
                     <TbBuildingCommunity />
                   </div>
                 </a>
-                <a
-                  className={`flex items-center text-lg p-5 rounded border transition duration-300 ease-in-out mb-3 ${
-                    tab !== 3
-                      ? "bg-white shadow-md border-gray-200 hover:shadow-lg"
-                      : "bg-gray-200 border-transparent"
-                  }`}
-                  href="#0"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setTab(3);
-                  }}
-                >
-                  <div>
-                    <div className="font-bold leading-snug tracking-tight mb-4 text-base">
-                      Land
-                    </div>
-                    <div className="text-gray-600 text-sm">
-                      Discover premium land opportunities perfect for building,
-                      farming, or future investment. Land is the foundation of
-                      your vision, and booking now ensures you secure the ideal
-                      location for your goals. Start your journey with us today
-                    </div>
-                    <div className="w-full flex justify-end text-sm font-bold text-emerald-900 hover:text-emerald-700 mt-2">
-                      <Link href={"/properties"}>Explore now</Link>
-                    </div>
-                  </div>
-                  <div className="flex justify-center items-center w-8 h-8 text-emerald-700 bg-white rounded-full shadow flex-shrink-0 ml-3">
-                    <PiIsland />
-                  </div>
-                </a>
+            
               </div>
             </div>
             <div className="max-w-xl md:max-w-none md:w-full mx-auto md:col-span-5 lg:col-span-6 mb-8 md:mb-0 md:order-1 pt-[10vh]">

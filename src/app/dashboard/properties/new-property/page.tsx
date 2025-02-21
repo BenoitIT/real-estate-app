@@ -220,7 +220,7 @@ const Page = () => {
                 </span>
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="measurement">Price per month</Label>
+                <Label htmlFor="measurement">Price per night</Label>
                 <Input
                   id="pricepermonth"
                   type="number"
@@ -243,13 +243,12 @@ const Page = () => {
                     <SelectValue placeholder="Property type" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value={"Commercial building"}>
-                      {"Commercial building"}
+                    <SelectItem value={"hotel"}>
+                      {"Hotel"}
                     </SelectItem>
-                    <SelectItem value={"Residential building"}>
-                      {"Residential building"}
+                    <SelectItem value={"guest house"}>
+                      {"Guest house"}
                     </SelectItem>
-                    <SelectItem value={"Land"}>{"Land"}</SelectItem>
                   </SelectContent>
                 </Select>
                 <span

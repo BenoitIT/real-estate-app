@@ -40,12 +40,10 @@ const Page = () => {
   const amenities = property.anemities || [];
   const getPropertyImage = (ptype: string) => {
     switch (ptype.toLowerCase()) {
-      case "residential building":
+      case "hotel":
         return "/residental.jpg";
-      case "commercial building":
-        return "/realestate.jpg";
       default:
-        return "/land.jpg";
+        return "/realestate.jpg";
     }
   };
   const formatDate = (dateString: string) => {
@@ -137,7 +135,7 @@ const Page = () => {
           </div>
         </div>
         <div className="text-sm shadow p-6 rounded">
-          <span className="font-semibold text-lg">Booked by:</span>{" "}
+          <span className="font-semibold text-lg"> confirmed by:</span>{" "}
           <span>{data.data?.fullname}</span>
           <p className="font-semibold mt-4 mb-2">Periaod</p>
           <hr />

@@ -92,7 +92,7 @@ const Page = () => {
               </AlertDialogCancel>
               <AlertDialogAction
                 onClick={() => {
-                  handleConfirmDelete(rowId);
+                  handleConfirmReservation(rowId);
                 }}
                 className="bg-emerald-900"
               >
@@ -129,7 +129,7 @@ const Page = () => {
               </AlertDialogCancel>
               <AlertDialogAction
                 onClick={() => {
-                  handleConfirmReservation(rowId);
+                  handleConfirmDelete(rowId);
                 }}
                 className="bg-emerald-900"
               >

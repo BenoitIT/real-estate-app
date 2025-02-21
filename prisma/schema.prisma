@@ -43,8 +43,8 @@ model Booking {
   propertyId String
   user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   property   Properties @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-  sdate      String
-  edate      String
+  sdate      DateTime
+  edate      DateTime
   fullname   String
   email      String
   phone      String

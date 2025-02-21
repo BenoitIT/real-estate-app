@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -16,8 +16,9 @@ import { useSearchParams, useRouter } from "next/navigation";
 const PropertyFilters = () => {
   const searchParam = useSearchParams();
   const router = useRouter();
-  const [searchValue, setSearchValue] = useState("");
-  const [debouncedValue] = useDebounce(searchValue, 1000);
+  const search = searchParam?.get("search") || "";
+  const [searchValue, setSearchValue] = useState(search);
+  const [debouncedValue] = useDebounce(searchValue, 100);
   const searchPropertyHandler = () => {
     const params = new URLSearchParams(searchParam!);
     if (debouncedValue != "") {
@@ -29,6 +30,12 @@ const PropertyFilters = () => {
     }
     return;
   };
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      searchPropertyHandler();
+    }
+  };
   return (
     <div className="w-full mb-6 space-y-4 flex justify-between">
       <div className="flex flex-col sm:flex-row gap-4">
@@ -37,11 +44,14 @@ const PropertyFilters = () => {
           <Input
             placeholder="Search properties..."
             className="pl-10"
+            value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
+            onKeyDown={handleKeyPress}
           />
         </div>
         <Button
           variant="outline"
+          type="button"
           className="flex items-center gap-2"
           onClick={searchPropertyHandler}
         >
@@ -56,13 +66,8 @@ const PropertyFilters = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value=" ">All</SelectItem>
-            <SelectItem value="Commercial building">
-              Commercial building
-            </SelectItem>
-            <SelectItem value="Residental building">
-              Residental building
-            </SelectItem>
-            <SelectItem value="land">Plot of land</SelectItem>
+            <SelectItem value=" ">Hotel</SelectItem>
+            <SelectItem value=" ">Guest house</SelectItem>
           </SelectContent>
         </Select>
         <Button

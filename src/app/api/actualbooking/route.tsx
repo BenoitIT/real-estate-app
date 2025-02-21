@@ -7,8 +7,8 @@ export const GET = async (req: Request) => {
   const userId = searchParams?.get("user");
   const properties = await prisma.booking.findMany({
     where: {
-        property: { userId: userId },
-      progress: "booked",
+      userId: userId,
+      progress: "confirmed",
     },
   });
   return NextResponse.json({

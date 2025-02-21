@@ -50,7 +50,7 @@ const BaseTable = <T extends Record<string, string | number>>({
               </TableCell>
               {headers.map((header, colIndex) => (
                 <TableCell key={colIndex} className={`text-xs  p-3 `}>
-                  {header.field == "createdAt"
+                  {header.field == "createdAt"||header.field == "sdate"||header.field == "edate"
                     ? new Date(row[header.field]).toDateString()
                     : (row[header.field] as string | number)}
                 </TableCell>

@@ -16,7 +16,7 @@ export default function AboutUs() {
               innovation to meet your needs. Our mission is to connect people
               with places effortlessly while ensuring a delightful and secure
               user experience. With a focus on usability, performance, and
-              reliability, LaLa is more than a booking platform. it’s your
+              reliability, this is more than a booking platform. it’s your
               trusted partner in finding the perfect stay or sharing your space
               with the world. Join us on this journey as we redefine the rental
               industry, one booking at a time.
