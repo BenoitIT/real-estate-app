@@ -5,6 +5,9 @@ const Authlayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const session :any = useSession();
   const role = session?.data?.role;
+  if(!role){
+    return <div>{children}</div>
+  }
   if (role?.toLowerCase().includes("host")) {
     return router.push("/dashboard");
   } else {
