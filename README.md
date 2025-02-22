@@ -84,31 +84,6 @@ Backend:
 cd Real-estate-app
 npm run dev
 ```
-
-### Authentication Endpoints
-```
-POST /api/auth/google
-POST /api/auth/logout
-GET  /api/auth/user
-```
-
-### Property Endpoints
-```
-GET    /api/properties
-POST   /api/properties
-GET    /api/properties/:id
-PUT    /api/properties/:id
-DELETE /api/properties/:id
-```
-
-### Booking Endpoints
-```
-POST   /api/requests
-GET    /api/history
-PUT    /api/bookings/:id/status
-DELETE /api/bookings/:id
-```
-
 ## 🔐 Security Features
 
 - JWT Authentication
