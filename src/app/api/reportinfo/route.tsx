@@ -37,7 +37,7 @@ export const GET = async (req: Request) => {
   const propertiesInUse = await prisma.booking.count({
     where: {
       userId:userId!,
-      progress: "active",
+      progress: "confirmed",
       createdAt: {
         gte: start,
         lt: end,
@@ -73,7 +73,7 @@ export const GET = async (req: Request) => {
         prisma.booking.count({
           where: {
            userId:userId!,
-            progress: "active",
+            progress: "pending",
             createdAt: {
               gte: monthStart,
               lte: monthEnd,
@@ -83,7 +83,7 @@ export const GET = async (req: Request) => {
         prisma.booking.count({
           where: {
            userId:userId!,
-            progress: "completed",
+            progress: "confirmed",
             createdAt: {
               gte: monthStart,
               lte: monthEnd,
