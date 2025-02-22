@@ -36,12 +36,12 @@ export const POST = async (req: NextRequest) => {
       where: {
         propertyId: body.propertyId,
         progress: {
-          in: ["pending", "confirmed"] 
+          in: ["pending", "confirmed"],
         },
         AND: [
           {
             sdate: {
-              lte: endDate, 
+              lte: endDate,
             },
           },
           {
@@ -57,11 +57,11 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json({
         status: 400,
         message: "Property is already booked for these dates",
-        conflictingDates: overlappingBookings.map(booking => ({
+        conflictingDates: overlappingBookings.map((booking) => ({
           start: booking.sdate,
           end: booking.edate,
-          status: booking.progress
-        }))
+          status: booking.progress,
+        })),
       });
     }
     const booking = await prisma.booking.create({
@@ -82,7 +82,6 @@ export const POST = async (req: NextRequest) => {
       message: "Booking request is sent successfully",
       data: booking,
     });
-
   } catch (err) {
     console.error("Booking error:", err);
     return NextResponse.json({
@@ -93,12 +92,13 @@ export const POST = async (req: NextRequest) => {
 };
 
 export const GET = async (req: Request) => {
-  const { searchParams } :any = new URL(req.url);
+  const { searchParams }: any = new URL(req.url);
   const userId = searchParams?.get("user");
-  console.log("user idd",userId)
   const properties = await prisma.booking.findMany({
     where: {
-      userId: userId,
+      property: {
+        userId: userId,
+      },
       progress: "pending",
     },
   });
