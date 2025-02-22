@@ -5,7 +5,7 @@ import { Button } from "./button";
 import { FaGoogle } from "react-icons/fa";
 function SignInWithGoogle() {
   const handleClick = async () => {
-    await signIn("google", { callbackUrl: "/dashboard" });
+    await signIn("google", { callbackUrl: "/signin" });
   };
   return (
     <Button variant="outline" className="w-full" onClick={handleClick}>
