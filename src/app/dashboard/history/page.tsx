@@ -14,7 +14,7 @@ const Page = () => {
   const userId = session?.data?.id;
   const router = useRouter();
   const currentpath = usePathname();
-  const { data, isLoading, error } = useSWR(userId && ["hostory", userId], () =>
+  const { data, isLoading, error } = useSWR(userId && ["history", userId], () =>
     getBookings(userId)
   );
   const handleView = async (id: number | string) => {

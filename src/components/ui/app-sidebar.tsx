@@ -36,17 +36,17 @@ const items = [
     icon: Fence,
   },
   {
-    title: "Incoming request",
+    title: "Pending request",
     url: "/dashboard/requests",
     icon: BetweenHorizontalEnd,
   },
   {
-    title: "In-use properties",
+    title: "Confirmed request",
     url: "/dashboard/inuseproperties",
     icon: ChartBarStacked,
   },
   {
-    title: "Booking history",
+    title: "Cancelled bookings",
     url: "/dashboard/history",
     icon: ArrowRightLeft,
   },

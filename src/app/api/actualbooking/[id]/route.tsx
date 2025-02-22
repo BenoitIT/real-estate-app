@@ -10,13 +10,13 @@ export const PUT = async (req: Request) => {
         progress: "confirmed",
       },
       data: {
-        progress: "available",
+        progress: "canceled",
       },
     });
     if (booking) {
       return NextResponse.json({
         status: 200,
-        message: "Property is now available. it can be  confirmed again!",
+        message: "Property reservation is now canceled. it can be  confirmed again!",
       });
     }
     return NextResponse.json({
