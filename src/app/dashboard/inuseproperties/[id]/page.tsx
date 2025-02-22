@@ -79,15 +79,11 @@ const Page = () => {
               </div>
               <div className="text-right">
                 <p className="text-2xl font-bold">
-                  ${property.pricepermonth}/mo
+                  ${property.pricepermonth}/night
                 </p>
                 <span className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm">
-                  {property?.Booking?.length === 0 ||
-                  property?.Booking?.some(
-                    (booking :any) => booking?.progress === "available"
-                  )
-                    ? "Active"
-                    : "Not available"}
+                  {"Active"
+                    }
                 </span>
               </div>
             </div>

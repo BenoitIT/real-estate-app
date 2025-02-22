@@ -46,7 +46,7 @@ const items = [
     icon: ChartBarStacked,
   },
   {
-    title: "Booking history",
+    title: "Cancelled bookings",
     url: "/dashboard/history",
     icon: ArrowRightLeft,
   },

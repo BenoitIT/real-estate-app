@@ -63,8 +63,8 @@ const Page = () => {
       icon: (
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <span className="text-emerald-900 text-xs font-semibold hover:bg-green-100 hover:rounded hover:shadow">
-              marks as released
+            <span className="text-red-700 text-xs font-semibold hover:bg-green-100 hover:rounded hover:shadow">
+              cancel
             </span>
           </AlertDialogTrigger>
           <AlertDialogContent>
@@ -73,7 +73,7 @@ const Page = () => {
                 Are you absolutely sure?
               </AlertDialogTitle>
               <AlertDialogDescription className="text-sm text-black opacity-65">
-                This action cannot be undone. This will mark the end of
+                This action cannot be undone. This will suddenly mark the end of
                 reservation period.
               </AlertDialogDescription>
             </AlertDialogHeader>
