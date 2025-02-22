@@ -64,7 +64,7 @@ export default NextAuth({
                 email: user.email!,
                 name: user.name || "",
                 password: "",
-                role: "host",
+                role: "renter",
                 createdAt: new Date(),
                 updatedAt: new Date(),
               },
