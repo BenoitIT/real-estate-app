@@ -103,8 +103,8 @@ DELETE /api/properties/:id
 
 ### Booking Endpoints
 ```
-POST   /api/bookings
-GET    /api/bookings
+POST   /api/requests
+GET    /api/history
 PUT    /api/bookings/:id/status
 DELETE /api/bookings/:id
 ```
